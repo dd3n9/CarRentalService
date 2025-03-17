@@ -6,7 +6,7 @@ namespace CarRentalService.Domain.VehicleAggregate.ValueObjects
     {
         public int Value { get; }
 
-        private VehicleYear(int value)
+        public VehicleYear(int value)
         {
             int currentYear = DateTime.UtcNow.Year;
             if (value < 1900 || value > currentYear)

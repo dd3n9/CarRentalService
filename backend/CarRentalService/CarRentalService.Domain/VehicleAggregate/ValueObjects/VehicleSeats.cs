@@ -6,9 +6,9 @@ namespace CarRentalService.Domain.VehicleAggregate.ValueObjects
     {
         public int Value { get; }
 
-        private VehicleSeats(int value)
+        public VehicleSeats(int value)
         {
-            if (value < 1 || value > 65)
+            if (value < 1 || value > 9)
             {
                 throw new InvalidVehicleSeatsCountException();
             }

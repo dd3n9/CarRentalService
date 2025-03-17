@@ -7,6 +7,8 @@ namespace CarRentalService.Domain.RentalPointAggregate
     {
         public RentalPointName Name { get; private set; }
         public RentalPointAddress Address { get; private set; }
+        public DateTime CreatedAt { get; } = DateTime.UtcNow;
+
 
         private RentalPoint() { } 
 

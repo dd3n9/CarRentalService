@@ -6,8 +6,7 @@ namespace CarRentalService.Domain.VehicleAggregate.ValueObjects
     {
         public decimal Value { get; }
 
-
-        private Price(decimal value)
+        public Price(decimal value)
         {
             if (value <= 0)
                 throw new InvalidPriceException();

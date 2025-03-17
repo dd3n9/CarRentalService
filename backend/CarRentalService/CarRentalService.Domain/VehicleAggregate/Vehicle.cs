@@ -15,6 +15,8 @@ namespace CarRentalService.Domain.VehicleAggregate
         public VehicleYear Year { get; private set; }
         public VehicleSeats Seats { get; private set; }
         public RentalPointId RentalPointId { get; private set; }
+        public DateTime CreatedAt { get; } = DateTime.UtcNow;
+
 
         private readonly List<Reservation> _reservations = new();
         public IReadOnlyCollection<Reservation> Reservations => _reservations.AsReadOnly();

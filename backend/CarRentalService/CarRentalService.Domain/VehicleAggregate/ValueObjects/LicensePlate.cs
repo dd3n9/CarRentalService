@@ -10,7 +10,7 @@ namespace CarRentalService.Domain.VehicleAggregate.ValueObjects
 
         public string Value { get; }
 
-        private LicensePlate(string value)
+        public LicensePlate(string value)
         {
             if (string.IsNullOrWhiteSpace(value) || !LicensePlatePattern.IsMatch(value))
             {

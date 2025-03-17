@@ -12,10 +12,11 @@ namespace CarRentalService.Domain.VehicleAggregate.Entities
         public VehicleId VehicleId { get; private set; }
         public RentalPointId PickupPointId { get; private set; }
         public RentalPointId ReturnPointId { get; private set; }
-        public DateTime StartDate { get; private set; }
-        public DateTime EndDate { get; private set; }
-        public DateTime? ReturnedDate { get; private set; }
+        public ReservationDate StartDate { get; private set; }
+        public ReservationDate EndDate { get; private set; }
+        public ReservationDate? ReturnedDate { get; private set; }
         public ReservationStatus Status { get; private set; }
+        public DateTime CreatedAt { get; } = DateTime.UtcNow;
 
         private Reservation() { }
 
