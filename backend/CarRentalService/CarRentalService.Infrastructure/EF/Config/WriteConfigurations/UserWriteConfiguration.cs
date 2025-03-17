@@ -11,7 +11,8 @@ namespace CarRentalService.Infrastructure.EF.Config.WriteConfigurations
         {
             builder
                 .Property(u => u.Id)
-                .HasConversion(value => value.Value, value => new UserId(value));
+                .HasConversion(value => value.Value, value => new UserId(value))
+                .ValueGeneratedNever();
 
             builder
                 .Property(r => r.CreatedAt)

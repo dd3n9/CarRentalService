@@ -1,4 +1,5 @@
-﻿using CarRentalService.Domain.RentalPointAggregate.ValueObjects;
+﻿using CarRentalService.Domain.RentalPointAggregate;
+using CarRentalService.Domain.RentalPointAggregate.ValueObjects;
 using CarRentalService.Domain.UserAggregate;
 using CarRentalService.Domain.UserAggregate.ValueObjects;
 using CarRentalService.Domain.VehicleAggregate;
@@ -69,6 +70,16 @@ namespace CarRentalService.Infrastructure.EF.Config.WriteConfigurations
 
                 r.Property(r => r.Id)
                     .HasConversion(r => r.Value, r => new ReservationId(r));
+
+                r.HasOne<RentalPoint>()
+                    .WithMany()
+                    .HasForeignKey(r => r.ReturnPointId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                r.HasOne<RentalPoint>()
+                    .WithMany()
+                    .HasForeignKey(r => r.PickupPointId)
+                    .OnDelete(DeleteBehavior.Restrict);
 
                 r.HasOne<User>()
                     .WithMany()
