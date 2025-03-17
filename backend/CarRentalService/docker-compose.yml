@@ -1,0 +1,32 @@
+version: '3.4'
+
+services:
+    carrentalservice.api:
+        container_name: carrentalservice.app
+        image: ${DOCKER_REGISTRY-}carrentalserviceapi
+        build:
+            context: .
+            dockerfile: CarRentalService.Api/Dockerfile
+        environment: 
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_HTTP_PORTS=8080
+            - ASPNETCORE_HTTPS_PORTS=8081
+            - ASPNETCORE_Kestrel__Certificates__Default__Password=carrPass
+            - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/carrental.pfx
+        ports:
+            - "8084:8080"
+            - "8085:8081"
+        volumes:
+            - ~/.aspnet/https:/https:ro
+        depends_on:
+            - database.server
+    database.server:
+        container_name: database.server
+        image: mcr.microsoft.com/mssql/server:2019-latest
+        environment:
+            ACCEPT_EULA: "Y"
+            SA_PASSWORD: "Pa55word1234carrental"
+        ports:
+            - "1435:1433"
+        volumes:
+            - ./sqlserver/data:/var/opt/mssql/data
