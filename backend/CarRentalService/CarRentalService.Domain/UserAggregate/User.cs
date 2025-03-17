@@ -8,7 +8,7 @@ namespace CarRentalService.Domain.UserAggregate
     {
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
-        public string HashedPassword { get; private set; }
+        //public string HashedPassword { get; private set; }
 
 
         private readonly List<IDomainEvent> _domainEvents = new();
@@ -19,14 +19,13 @@ namespace CarRentalService.Domain.UserAggregate
             UserId userId,
             string firstName,
             string lastName,
-            string email,
-            string hashedPassword)
+            string email)
         {
             Id = userId;
             FirstName = firstName;
             LastName = lastName;
             Email = email;
-            HashedPassword = hashedPassword;
+            //HashedPassword = hashedPassword;
         }
 
         private User() { }
@@ -34,15 +33,14 @@ namespace CarRentalService.Domain.UserAggregate
         public static User Create(
             string firstName,
             string lastName,
-            string email,
-            string hashedPassword)
+            string email)
         {
             var user = new User(
                 UserId.CreateUnique(),
                 firstName,
                 lastName,
-                email,
-                hashedPassword
+                email
+                //hashedPassword
                 );
 
             return user;

@@ -5,8 +5,8 @@ namespace CarRentalService.Domain.RentalPointAggregate
 {
     public class RentalPoint : AggregateRoot<RentalPointId>
     {
-        public string Name { get; private set; }
-        public string Address { get; private set; }
+        public RentalPointName Name { get; private set; }
+        public RentalPointAddress Address { get; private set; }
 
         private RentalPoint() { } 
 
