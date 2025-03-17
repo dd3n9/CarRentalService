@@ -1,4 +1,6 @@
-﻿namespace CarRentalService.Domain.Common.Models
+﻿using CarRentalService.Domain.Common.Exceptions.Aggregate;
+
+namespace CarRentalService.Domain.Common.Models
 {
     public abstract record AggregateRootId<TId>
     {
