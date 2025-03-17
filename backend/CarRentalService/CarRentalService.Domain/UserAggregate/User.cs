@@ -8,6 +8,7 @@ namespace CarRentalService.Domain.UserAggregate
     {
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
+        public DateTime CreatedAt { get; } = DateTime.UtcNow;
         //public string HashedPassword { get; private set; }
 
 

@@ -25,6 +25,7 @@ namespace CarRentalService.Infrastructure.EF.Context
         private void WriteConfiguration(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new VehicleWriteConfiguration());
+            modelBuilder.ApplyConfiguration(new UserWriteConfiguration());
         }
     }
 }
