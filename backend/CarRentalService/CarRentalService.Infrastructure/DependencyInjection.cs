@@ -17,11 +17,11 @@ namespace CarRentalService.Infrastructure
 
         private static IServiceCollection AddMsSql(this IServiceCollection services, IConfiguration configuration)
         {
-            //services.AddDbContext<ReadDbContext>(ctx =>
-            //{
-            //    ctx.UseSqlServer(configuration.GetConnectionString("DbConnection"))
-            //        .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-            //});
+            services.AddDbContext<ReadDbContext>(ctx =>
+            {
+                ctx.UseSqlServer(configuration.GetConnectionString("DbConnection"))
+                    .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+            });
 
             services.AddDbContext<WriteDbContext>(ctx =>
             {

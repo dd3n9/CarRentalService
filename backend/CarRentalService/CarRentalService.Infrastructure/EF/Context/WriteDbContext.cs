@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CarRentalService.Infrastructure.EF.Context
 {
-    public class WriteDbContext : IdentityDbContext<User, IdentityRole<UserId>, UserId>
+    public sealed class WriteDbContext : IdentityDbContext<User, IdentityRole<UserId>, UserId>
     {
         public WriteDbContext(DbContextOptions options) : base(options)
         {

@@ -1,6 +1,4 @@
-﻿using CarRentalService.Domain.VehicleAggregate.Entities;
-
-namespace CarRentalService.Infrastructure.EF.Models
+﻿namespace CarRentalService.Infrastructure.EF.Models
 {
     internal class VehicleReadModel : BaseReadModel
     {
@@ -17,6 +15,6 @@ namespace CarRentalService.Infrastructure.EF.Models
 
         public DateTime CreatedAt { get; } = DateTime.UtcNow;
 
-        public ICollection<Reservation> Reservations { get; set; }
+        public ICollection<ReservationReadModel> Reservations { get; set; }
     }
 }
