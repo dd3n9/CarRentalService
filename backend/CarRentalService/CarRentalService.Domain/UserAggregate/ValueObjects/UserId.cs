@@ -4,7 +4,7 @@ using System.ComponentModel;
 
 namespace CarRentalService.Domain.UserAggregate.ValueObjects
 {
-    [TypeConverter(typeof(ApplicationUserIdConverter))]
+    [TypeConverter(typeof(UserIdConverter))]
     public record UserId
     {
         public string Value { get; }

@@ -4,7 +4,7 @@ using System.Globalization;
 
 namespace CarRentalService.Domain.Common.TypeConverters
 {
-    public class ApplicationUserIdConverter : TypeConverter
+    public class UserIdConverter : TypeConverter
     {
         public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
         {
