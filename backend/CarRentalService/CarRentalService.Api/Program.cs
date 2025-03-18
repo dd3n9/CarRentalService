@@ -1,3 +1,4 @@
+using CarRentalService.Api;
 using CarRentalService.Infrastructure;
 using CarRentalService.Infrastructure.EF.Context;
 using Microsoft.EntityFrameworkCore;
@@ -5,7 +6,8 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddPresentation()
+    .AddInfrastructure(builder.Configuration);
 
 
 builder.Services.AddControllers();

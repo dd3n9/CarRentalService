@@ -40,7 +40,7 @@ namespace CarRentalService.Domain.VehicleAggregate.Entities
             Status = ReservationStatus.Active;
         }
 
-        public Reservation Create(
+        public static Reservation Create(
             UserId userId,
             VehicleId vehicleId,
             RentalPointId pickupPointId,
