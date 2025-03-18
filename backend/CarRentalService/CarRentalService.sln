@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34408.163
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRentalService.Api", "CarRentalService.Api\CarRentalService.Api.csproj", "{7E9258D5-C589-4C7D-BE14-F3EA249DB4E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRentalService.Api", "CarRentalService.Api\CarRentalService.Api.csproj", "{7E9258D5-C589-4C7D-BE14-F3EA249DB4E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRentalService.Application", "CarRentalService.Application\CarRentalService.Application.csproj", "{37496E52-F744-4114-8B8D-B598554394A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRentalService.Application", "CarRentalService.Application\CarRentalService.Application.csproj", "{37496E52-F744-4114-8B8D-B598554394A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRentalService.Contracts", "CarRentalService.Contracts\CarRentalService.Contracts.csproj", "{CFABB2D0-8A07-43DD-90A6-F7ACC77B057C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRentalService.Contracts", "CarRentalService.Contracts\CarRentalService.Contracts.csproj", "{CFABB2D0-8A07-43DD-90A6-F7ACC77B057C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRentalService.Domain", "CarRentalService.Domain\CarRentalService.Domain.csproj", "{52CFABCD-2006-4F6A-8C73-115017A4FC07}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRentalService.Domain", "CarRentalService.Domain\CarRentalService.Domain.csproj", "{52CFABCD-2006-4F6A-8C73-115017A4FC07}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRentalService.Infrastructure", "CarRentalService.Infrastructure\CarRentalService.Infrastructure.csproj", "{B687A7C5-6E29-4AE9-83FA-0565B0FAE25A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRentalService.Infrastructure", "CarRentalService.Infrastructure\CarRentalService.Infrastructure.csproj", "{B687A7C5-6E29-4AE9-83FA-0565B0FAE25A}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{BF8EDA79-C347-4B1A-8FCC-EF9808C73043}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{B687A7C5-6E29-4AE9-83FA-0565B0FAE25A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B687A7C5-6E29-4AE9-83FA-0565B0FAE25A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B687A7C5-6E29-4AE9-83FA-0565B0FAE25A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF8EDA79-C347-4B1A-8FCC-EF9808C73043}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF8EDA79-C347-4B1A-8FCC-EF9808C73043}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF8EDA79-C347-4B1A-8FCC-EF9808C73043}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF8EDA79-C347-4B1A-8FCC-EF9808C73043}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

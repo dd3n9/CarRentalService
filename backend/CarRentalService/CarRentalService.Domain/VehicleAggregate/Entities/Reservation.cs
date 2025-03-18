@@ -12,9 +12,11 @@ namespace CarRentalService.Domain.VehicleAggregate.Entities
         public VehicleId VehicleId { get; private set; }
         public RentalPointId PickupPointId { get; private set; }
         public RentalPointId ReturnPointId { get; private set; }
-        public DateTime StartDate { get; private set; }
-        public DateTime EndDate { get; private set; }
+        public ReservationDate StartDate { get; private set; }
+        public ReservationDate EndDate { get; private set; }
+        public ReservationDate? ReturnedDate { get; private set; }
         public ReservationStatus Status { get; private set; }
+        public DateTime CreatedAt { get; } = DateTime.UtcNow;
 
         private Reservation() { }
 
@@ -25,7 +27,8 @@ namespace CarRentalService.Domain.VehicleAggregate.Entities
             RentalPointId pickupPointId,
             RentalPointId returnPointId, 
             DateTime startDate,
-            DateTime endDate) : base(reservationId)
+            DateTime endDate,
+            DateTime? returnedDate = null) : base(reservationId)
         {
             UserId = userId;
             VehicleId = vehicleId;
@@ -33,6 +36,7 @@ namespace CarRentalService.Domain.VehicleAggregate.Entities
             ReturnPointId = returnPointId;
             StartDate = startDate;
             EndDate = endDate;
+            ReturnedDate = returnedDate;
             Status = ReservationStatus.Active;
         }
 
@@ -42,7 +46,8 @@ namespace CarRentalService.Domain.VehicleAggregate.Entities
             RentalPointId pickupPointId,
             RentalPointId returnPointId,
             DateTime startDate,
-            DateTime endDate)
+            DateTime endDate
+            )
         {
             var reservation = new Reservation(ReservationId.CreateUnique(),
                 userId, 

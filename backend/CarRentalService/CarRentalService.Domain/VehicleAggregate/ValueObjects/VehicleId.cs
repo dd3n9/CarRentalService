@@ -25,10 +25,10 @@ namespace CarRentalService.Domain.VehicleAggregate.ValueObjects
             return new(Guid.NewGuid());
         }
 
-        public static implicit operator Guid(VehicleId movieId)
-            => movieId.Value;
+        public static implicit operator Guid(VehicleId value)
+            => value.Value;
 
-        public static implicit operator VehicleId(Guid movieId)
-            => new VehicleId(movieId);
+        public static implicit operator VehicleId(Guid value)
+            => new VehicleId(value);
     }
 }
