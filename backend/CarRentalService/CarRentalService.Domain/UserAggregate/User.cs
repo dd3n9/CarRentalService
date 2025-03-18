@@ -29,6 +29,7 @@ namespace CarRentalService.Domain.UserAggregate
             FirstName = firstName;
             LastName = lastName;
             Email = email;
+            UserName = email;
             PasswordHash = password;
         }
 

@@ -1,13 +1,18 @@
 ﻿using CarRentalService.Application.Common.Interfaces.ReadServices;
 using CarRentalService.Application.Common.Interfaces.Services;
+using CarRentalService.Contracts.Configurations;
 using CarRentalService.Domain.Repositories;
 using CarRentalService.Infrastructure.EF.Context;
 using CarRentalService.Infrastructure.EF.Repositories;
 using CarRentalService.Infrastructure.EF.Services;
 using CarRentalService.Infrastructure.Services.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace CarRentalService.Infrastructure
 {
@@ -16,7 +21,8 @@ namespace CarRentalService.Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services,
             IConfiguration configuration)
         {
-            services.AddMsSql(configuration);
+            services.AddMsSql(configuration)
+                .AddAuth(configuration);
 
             //DI Vehicle
             services.AddScoped<IVehicleRepository, VehicleRepository>();
@@ -28,11 +34,6 @@ namespace CarRentalService.Infrastructure
 
             //DI Rental
             services.AddScoped<IRentalPointRepository, RentalPointRepository>();
-
-            //DI Auth 
-            services.AddScoped<IAuthenticationService, AuthenticationService>();
-            services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
-            services.AddScoped<IUserRoleService, UserRoleService>();
 
             return services;
         }
@@ -50,6 +51,39 @@ namespace CarRentalService.Infrastructure
             {
                 ctx.UseSqlServer(configuration.GetConnectionString("DbConnection"));
             });
+
+            return services;
+        }
+
+        private static IServiceCollection AddAuth(
+            this IServiceCollection services,
+            IConfiguration configuration)
+        {
+            var jwtSettings = new JwtConfig();
+            configuration.Bind(JwtConfig.SectionName, jwtSettings);
+
+            services.AddSingleton(Options.Create(jwtSettings));
+            services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<IUserRoleService, UserRoleService>();
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = jwtSettings.Issuer,
+                    ValidateAudience = true,
+                    ValidAudience = jwtSettings.Audience,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(jwtSettings.Secret))
+                });
 
             return services;
         }
