@@ -29,5 +29,21 @@ namespace CarRentalService.Domain.Common.Errors
             public static readonly Error NotFound = new Error("Rental point was not found.")
                 .WithMetadata("ErrorCode", "RentalPoint.NotFound");
         }
+
+        public static class Authentication
+        {
+            public static readonly Error IncorrectPassword = new Error("Incorrect password.")
+                .WithMetadata("ErrorCode", "Authentication.IncorrectPassword");
+            public static readonly Error InvalidCredentials = new Error("Invalid email or password.")
+                .WithMetadata("ErrorCode", "Authentication.InvalidCredentials");
+            public static readonly Error InvalidToken = new Error("Invalid authentication token.")
+                .WithMetadata("ErrorCode", "Authentication.InvalidToken");
+            public static readonly Error ExpiredToken = new Error("Authentication token has expired.")
+                 .WithMetadata("ErrorCode", "Authentication.ExpiredToken");
+            public static readonly Error RefreshTokenNotFound = new Error("Refresh token not found.")
+              .WithMetadata("ErrorCode", "Authentication.RefreshTokenNotFound");
+            public static readonly Error RefreshTokenExpired = new Error("Refresh token has expired.")
+             .WithMetadata("ErrorCode", "Authentication.RefreshTokenExpired");
+        }
     }
 }
