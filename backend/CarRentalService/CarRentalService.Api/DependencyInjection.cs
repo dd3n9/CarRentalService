@@ -1,4 +1,5 @@
 ﻿using Asp.Versioning;
+using CarRentalService.Api.Infrastructure;
 using Mapster;
 using MapsterMapper;
 using System.Reflection;
@@ -9,6 +10,7 @@ namespace CarRentalService.Api
     {
         public static IServiceCollection AddPresentation(this IServiceCollection services)
         {
+            services.AddExceptionHandler<GlobalExceptionHandler>();
             services.AddVersionApiSetup();
             services.AddMappings();
 
