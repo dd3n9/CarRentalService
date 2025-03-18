@@ -18,6 +18,36 @@ namespace CarRentalService.Infrastructure.EF.Config.WriteConfigurations
                 .Property(r => r.CreatedAt)
                 .HasDefaultValueSql("GETUTCDATE()")
                 .ValueGeneratedOnAdd();
+
+            builder.OwnsMany(u => u.RefreshTokens, rtb =>
+            {
+                rtb.HasKey(u => u.Id);
+
+                rtb.Property(u => u.Id)
+                    .HasConversion(id => id.Value, id => new RefreshTokenId(id))
+                    .ValueGeneratedNever();
+
+                rtb.WithOwner()
+                    .HasForeignKey("ApplicationUserId");
+
+                rtb.Property(u => u.Token)
+                    .HasConversion(t => t.Value, t => new Token(t));
+
+                rtb.Property(u => u.JwtId)
+                    .HasConversion(jwtId => jwtId.Value, jwtId => new JwtId(jwtId));
+
+                rtb.Property(r => r.CreatedAt)
+                    .HasDefaultValueSql("GETUTCDATE()")
+                    .ValueGeneratedOnAdd();
+
+                rtb.Property(r => r.AddedDate)
+                   .HasDefaultValueSql("GETUTCDATE()")
+                   .ValueGeneratedOnAdd();
+
+                rtb.Property(r => r.ExpiryDate)
+                   .HasDefaultValueSql("GETUTCDATE()")
+                   .ValueGeneratedOnAdd();
+            });
         }
     }
 }
