@@ -1,4 +1,7 @@
 ﻿using Asp.Versioning;
+using Mapster;
+using MapsterMapper;
+using System.Reflection;
 
 namespace CarRentalService.Api
 {
@@ -7,6 +10,7 @@ namespace CarRentalService.Api
         public static IServiceCollection AddPresentation(this IServiceCollection services)
         {
             services.AddVersionApiSetup();
+            services.AddMappings();
 
             return services;
         }
@@ -29,5 +33,15 @@ namespace CarRentalService.Api
                 options.SubstituteApiVersionInUrl = true;
             });
         }
+        private static IServiceCollection AddMappings(this IServiceCollection services)
+        {
+            var config = TypeAdapterConfig.GlobalSettings;
+            config.Scan(Assembly.GetExecutingAssembly());
+
+            services.AddSingleton(config);
+            services.AddScoped<IMapper, ServiceMapper>();
+            return services;
+        }
+
     }
 }

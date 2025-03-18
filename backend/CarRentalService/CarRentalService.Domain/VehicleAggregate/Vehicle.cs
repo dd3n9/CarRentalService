@@ -12,7 +12,7 @@ namespace CarRentalService.Domain.VehicleAggregate
     {
         public VehicleBrand Brand { get; private set; }
         public VehicleModel Model { get; private set; }
-        public Price Price { get; private set; }
+        public Price PricePerDay { get; private set; }
         public VehicleType Type { get; private set; }
         public LicensePlate LicensePlate { get; private set; }
         public VehicleYear Year { get; private set; }

@@ -1,9 +1,7 @@
 ﻿namespace CarRentalService.Infrastructure.EF.Models
 {
-    internal class ReservationReadModel
+    internal class ReservationReadModel : BaseReadModel
     {
-        public Guid Id { get; set; }
-
         public UserReadModel User { get; set; }
         public string UserId { get; set; }
 

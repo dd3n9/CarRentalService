@@ -28,7 +28,7 @@ namespace CarRentalService.Infrastructure.EF.Config.WriteConfigurations
                 .IsRequired()
                 .HasMaxLength(50);
 
-            builder.Property(v => v.Price)
+            builder.Property(v => v.PricePerDay)
                .HasConversion(value => value.Value, value => new Price(value))
                .IsRequired();
 

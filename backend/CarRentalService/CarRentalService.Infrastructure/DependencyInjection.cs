@@ -1,4 +1,8 @@
-﻿using CarRentalService.Infrastructure.EF.Context;
+﻿using CarRentalService.Application.Common.Interfaces.ReadServices;
+using CarRentalService.Domain.Repositories;
+using CarRentalService.Infrastructure.EF.Context;
+using CarRentalService.Infrastructure.EF.Repositories;
+using CarRentalService.Infrastructure.EF.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +15,17 @@ namespace CarRentalService.Infrastructure
             IConfiguration configuration)
         {
             services.AddMsSql(configuration);
+
+            //DI Vehicle
+            services.AddScoped<IVehicleRepository, VehicleRepository>();
+            services.AddScoped<IVehicleReadService, VehicleReadService>();
+
+            //DI User
+            services.AddScoped<IUserRepository, UserRepository>();
+
+            //DI Rental
+            services.AddScoped<IRentalPointRepository, RentalPointRepository>();
+
             return services;
         }
 

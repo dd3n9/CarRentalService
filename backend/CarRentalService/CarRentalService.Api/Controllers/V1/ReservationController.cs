@@ -18,7 +18,7 @@ namespace CarRentalService.Api.Controllers.V1
             _mediator = mediator;
         }
 
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<IActionResult> CreateReservation([FromBody] CreateReservationRequest request, CancellationToken cancellationToken)
         {
             //var userId = HttpContext.GetUserIdClaimValue();
