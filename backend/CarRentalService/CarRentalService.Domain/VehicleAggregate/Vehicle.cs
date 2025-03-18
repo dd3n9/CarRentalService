@@ -1,7 +1,10 @@
-﻿using CarRentalService.Domain.Common.Models;
+﻿using CarRentalService.Domain.Common.Errors;
+using CarRentalService.Domain.Common.Models;
 using CarRentalService.Domain.RentalPointAggregate.ValueObjects;
+using CarRentalService.Domain.UserAggregate.ValueObjects;
 using CarRentalService.Domain.VehicleAggregate.Entities;
 using CarRentalService.Domain.VehicleAggregate.ValueObjects;
+using FluentResults;
 
 namespace CarRentalService.Domain.VehicleAggregate
 {
@@ -9,7 +12,7 @@ namespace CarRentalService.Domain.VehicleAggregate
     {
         public VehicleBrand Brand { get; private set; }
         public VehicleModel Model { get; private set; }
-        public Price Price { get; private set; }
+        public Price PricePerDay { get; private set; }
         public VehicleType Type { get; private set; }
         public LicensePlate LicensePlate { get; private set; }
         public VehicleYear Year { get; private set; }
@@ -59,6 +62,20 @@ namespace CarRentalService.Domain.VehicleAggregate
                     seats);
 
             return vehicle;
+        }
+
+        public Result<Reservation> Reserve(UserId userId, RentalPointId pickupPointId, RentalPointId returnPointId, DateTime startDate, DateTime endDate)
+        {
+            if(_reservations.Any(r => r.StartDate.Value < endDate && r.EndDate.Value > startDate))
+                return Result.Fail(ApplicationErrors.Vehicle.VehicleNotAvailableForSelectedTime);
+
+            if (RentalPointId != pickupPointId)
+                return Result.Fail(ApplicationErrors.Vehicle.RentalPointLocationError);
+
+            var reservation = Reservation.Create(userId, Id, pickupPointId, returnPointId, startDate, endDate);
+            _reservations.Add(reservation);
+
+            return Result.Ok(reservation);
         }
     }
 }

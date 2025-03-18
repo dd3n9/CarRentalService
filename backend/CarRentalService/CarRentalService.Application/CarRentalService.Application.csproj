@@ -6,4 +6,19 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="FluentResults" Version="3.16.0" />
+    <PackageReference Include="MediatR" Version="12.4.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Reservations\Queries\" />
+    <Folder Include="Vehicles\Commands\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CarRentalService.Contracts\CarRentalService.Contracts.csproj" />
+    <ProjectReference Include="..\CarRentalService.Domain\CarRentalService.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
