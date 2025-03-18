@@ -23,9 +23,9 @@ namespace CarRentalService.Infrastructure.EF.Repositories
             _userManager = userManager;
         }
 
-        public async Task<Result> AddAsync(User applicationUser, CancellationToken cancellationToken)
+        public async Task<Result> AddAsync(User applicationUser, string password, CancellationToken cancellationToken)
         {
-            var result = await _userManager.CreateAsync(applicationUser);
+            var result = await _userManager.CreateAsync(applicationUser, password);
             if (!result.Succeeded)
             {
                 var errors = result.Errors

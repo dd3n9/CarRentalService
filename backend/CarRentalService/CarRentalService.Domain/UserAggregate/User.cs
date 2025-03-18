@@ -22,12 +22,14 @@ namespace CarRentalService.Domain.UserAggregate
             UserId userId,
             string firstName,
             string lastName,
-            string email)
+            string email, 
+            string password)
         {
             Id = userId;
             FirstName = firstName;
             LastName = lastName;
             Email = email;
+            PasswordHash = password;
         }
 
         private User() { }
@@ -35,13 +37,15 @@ namespace CarRentalService.Domain.UserAggregate
         public static User Create(
             string firstName,
             string lastName,
-            string email)
+            string email, 
+            string password)
         {
             var user = new User(
                 UserId.CreateUnique(),
                 firstName,
                 lastName,
-                email
+                email, 
+                password
                 );
 
             return user;
