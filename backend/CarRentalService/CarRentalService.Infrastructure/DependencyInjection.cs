@@ -2,11 +2,14 @@
 using CarRentalService.Application.Common.Interfaces.Services;
 using CarRentalService.Contracts.Configurations;
 using CarRentalService.Domain.Repositories;
+using CarRentalService.Domain.UserAggregate;
+using CarRentalService.Domain.UserAggregate.ValueObjects;
 using CarRentalService.Infrastructure.EF.Context;
 using CarRentalService.Infrastructure.EF.Repositories;
 using CarRentalService.Infrastructure.EF.Services;
 using CarRentalService.Infrastructure.Services.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,6 +24,10 @@ namespace CarRentalService.Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services,
             IConfiguration configuration)
         {
+            services.AddIdentity<User, IdentityRole<UserId>>()
+                .AddEntityFrameworkStores<WriteDbContext>()
+                .AddDefaultTokenProviders();
+
             services.AddMsSql(configuration)
                 .AddAuth(configuration);
 
