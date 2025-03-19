@@ -29,7 +29,7 @@ namespace CarRentalService.Infrastructure.EF.Repositories
                 .FirstOrDefaultAsync(v => v.Id == id, cancellationToken);
         }
 
-        public void Update(Vehicle vehicle, CancellationToken cancellationToken)
+        public void Update(Vehicle vehicle)
         {
             if (vehicle is null)
                 throw new ArgumentNullException(nameof(vehicle));
@@ -37,7 +37,7 @@ namespace CarRentalService.Infrastructure.EF.Repositories
             _vehicles.Update(vehicle);
         }
 
-        public void Delete(Vehicle vehicle, CancellationToken cancellationToken)
+        public void Delete(Vehicle vehicle)
         {
             if (vehicle is null)
                 throw new ArgumentNullException(nameof(vehicle));
@@ -47,6 +47,13 @@ namespace CarRentalService.Infrastructure.EF.Repositories
         public async Task SaveChangesAsync(CancellationToken cancellationToken)
         {
             await _writeDbContext.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task<Vehicle?> GetByReservationIdAsync(ReservationId reservationId, CancellationToken cancellationToken)
+        {
+            return await _vehicles
+                .Include(v => v.Reservations)
+                .SingleOrDefaultAsync(v => v.Reservations.Any(r => r.Id == reservationId), cancellationToken);  
         }
     }
 }

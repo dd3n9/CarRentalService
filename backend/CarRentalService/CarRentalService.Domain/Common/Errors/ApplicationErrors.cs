@@ -24,6 +24,15 @@ namespace CarRentalService.Domain.Common.Errors
                 .WithMetadata("ErrorCode", "Vehicle.RentalPointLocationError");
         }
 
+        public static class Reservation 
+        {
+            public static readonly Error NotFound = new Error("Reservation was not found.")
+                .WithMetadata("ErrorCode", "Reservation.NotFound");
+            public static readonly Error EditableTimeExpired = new Error("The reservation`s editable time period has expired.")
+                .WithMetadata("ErrorCode", "Reservation.EditableTimeExpired");
+        }
+
+
         public static class RentalPoint
         {
             public static readonly Error NotFound = new Error("Rental point was not found.")

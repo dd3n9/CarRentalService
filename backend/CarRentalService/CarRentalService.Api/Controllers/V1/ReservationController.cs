@@ -1,9 +1,8 @@
 ﻿using CarRentalService.Api.Extensions;
 using CarRentalService.Application.Reservations.Commands.Create;
-using CarRentalService.Contracts.Common.Constants;
+using CarRentalService.Application.Reservations.Commands.Delete;
 using CarRentalService.Contracts.Reservations;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarRentalService.Api.Controllers.V1
@@ -33,6 +32,15 @@ namespace CarRentalService.Api.Controllers.V1
                 request.EndDate);
 
             var result = await _mediator.Send(command);
+
+            return OkOrNotFound(result);
+        }
+
+        [HttpDelete("{reservationId}")]
+        public async Task<IActionResult> DeleteReservation([FromRoute] Guid reservationId, CancellationToken cancellationToken)
+        {
+            var command = new DeleteReservationCommand(reservationId);
+            var result = await _mediator.Send(command, cancellationToken);
 
             return OkOrNotFound(result);
         }
