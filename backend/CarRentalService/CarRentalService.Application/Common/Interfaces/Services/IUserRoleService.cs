@@ -6,7 +6,7 @@ namespace CarRentalService.Application.Common.Interfaces.Services
 {
     public interface IUserRoleService
     {
-        Task<Result> SeedRolesAsync();
+        Task<Result> SeedIdentityRoleDataAsync();
         Task<IEnumerable<string>> GetUserRolesAsync(UserId userId);
         Task AssignRoleAsync(User applicationUser, string userRole);
     }

@@ -17,6 +17,7 @@ namespace CarRentalService.Domain.VehicleAggregate
         public LicensePlate LicensePlate { get; private set; }
         public VehicleYear Year { get; private set; }
         public VehicleSeats Seats { get; private set; }
+        public bool IsAvailable { get; private set; }
         public RentalPointId RentalPointId { get; private set; }
         public DateTime CreatedAt { get; } = DateTime.UtcNow;
 
@@ -29,37 +30,47 @@ namespace CarRentalService.Domain.VehicleAggregate
 
         private Vehicle(
             VehicleId vehicleId,
-            string brand,
-            string model,
+            VehicleBrand brand,
+            VehicleModel model,
+            Price pricePerDay,
             VehicleType type,
-            string licensePlate,
-            int year,
-            int seats ) : base(vehicleId)
+            LicensePlate licensePlate,
+            VehicleYear year,
+            VehicleSeats seats,
+            RentalPointId rentalPointId) : base(vehicleId)
         {
             Brand = brand;
             Model = model;
+            PricePerDay = pricePerDay;
             Type = type;
             LicensePlate = licensePlate;
             Year = year;
             Seats = seats;
+            IsAvailable = true;
+            RentalPointId = rentalPointId;
         }
 
         public static Vehicle Create(
-            string brand,
-            string model,
+            VehicleBrand brand,
+            VehicleModel model,
+            Price pricePerDay,
             VehicleType type,
-            string licensePlate,
-            int year,
-            int seats)
+            LicensePlate licensePlate,
+            VehicleYear year,
+            VehicleSeats seats,
+            RentalPointId rentalPointId)
         {
             var vehicle = new Vehicle(
                     VehicleId.CreateUnique(),
                     brand,
                     model,
+                    pricePerDay,
                     type,
                     licensePlate,
                     year,
-                    seats);
+                    seats,
+                    rentalPointId
+                    );
 
             return vehicle;
         }
@@ -74,6 +85,8 @@ namespace CarRentalService.Domain.VehicleAggregate
 
             var reservation = Reservation.Create(userId, Id, pickupPointId, returnPointId, startDate, endDate);
             _reservations.Add(reservation);
+
+            IsAvailable = false;
 
             return Result.Ok(reservation);
         }

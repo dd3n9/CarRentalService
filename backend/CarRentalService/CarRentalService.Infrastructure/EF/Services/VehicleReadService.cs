@@ -21,7 +21,8 @@ namespace CarRentalService.Infrastructure.EF.Services
             return _vehicles
                  .Include(v => v.Reservations)
                  .Include(v => v.RentalPoint)
-                 .Select(v => v.AsDto());
+                 .Select(v => v.AsDto())
+                 .AsQueryable();
         }
     }
 }

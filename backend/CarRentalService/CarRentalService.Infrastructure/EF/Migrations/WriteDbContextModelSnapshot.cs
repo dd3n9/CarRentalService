@@ -45,6 +45,20 @@ namespace CarRentalService.Infrastructure.EF.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("RentalPoints");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("550e8400-e29b-41d4-a716-446655440100"),
+                            Address = "Warsaw, Main St 1",
+                            Name = "Warsaw Central"
+                        },
+                        new
+                        {
+                            Id = new Guid("550e8400-e29b-41d4-a716-446655440101"),
+                            Address = "Katowice, Central Ave 10",
+                            Name = "Katowice Station"
+                        });
                 });
 
             modelBuilder.Entity("CarRentalService.Domain.UserAggregate.User", b =>
@@ -140,6 +154,11 @@ namespace CarRentalService.Infrastructure.EF.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETUTCDATE()");
 
+                    b.Property<bool>("IsAvailable")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
+
                     b.Property<string>("LicensePlate")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -169,6 +188,73 @@ namespace CarRentalService.Infrastructure.EF.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Vehicles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("6cd52b97-b4f7-41c7-a4df-37bf112fc672"),
+                            Brand = "Toyota",
+                            IsAvailable = true,
+                            LicensePlate = "KR1234AB",
+                            Model = "Camry",
+                            PricePerDay = 50m,
+                            RentalPointId = new Guid("550e8400-e29b-41d4-a716-446655440100"),
+                            Seats = 5,
+                            Type = "Car",
+                            Year = 2020
+                        },
+                        new
+                        {
+                            Id = new Guid("fa4c757a-cefe-498c-8f69-dc9338f59d8d"),
+                            Brand = "Honda",
+                            IsAvailable = true,
+                            LicensePlate = "WA5678CD",
+                            Model = "Civic",
+                            PricePerDay = 45m,
+                            RentalPointId = new Guid("550e8400-e29b-41d4-a716-446655440100"),
+                            Seats = 5,
+                            Type = "Car",
+                            Year = 2021
+                        },
+                        new
+                        {
+                            Id = new Guid("89df28b2-b79b-41cb-84c9-8b30d16a66a1"),
+                            Brand = "Ford",
+                            IsAvailable = true,
+                            LicensePlate = "PO9012EF",
+                            Model = "Focus",
+                            PricePerDay = 40m,
+                            RentalPointId = new Guid("550e8400-e29b-41d4-a716-446655440101"),
+                            Seats = 4,
+                            Type = "Car",
+                            Year = 2019
+                        },
+                        new
+                        {
+                            Id = new Guid("fbdb89f8-ee46-4833-bcfa-de7431d3ad08"),
+                            Brand = "Ford",
+                            IsAvailable = true,
+                            LicensePlate = "PO4012FF",
+                            Model = "F-150",
+                            PricePerDay = 80m,
+                            RentalPointId = new Guid("550e8400-e29b-41d4-a716-446655440101"),
+                            Seats = 2,
+                            Type = "Truck",
+                            Year = 2018
+                        },
+                        new
+                        {
+                            Id = new Guid("2c903c06-07cb-4f4a-891f-d7a6c67e8580"),
+                            Brand = "Yamaha",
+                            IsAvailable = true,
+                            LicensePlate = "PO9014EL",
+                            Model = "MT-07",
+                            PricePerDay = 35m,
+                            RentalPointId = new Guid("550e8400-e29b-41d4-a716-446655440101"),
+                            Seats = 2,
+                            Type = "Motorcycle",
+                            Year = 2021
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<CarRentalService.Domain.UserAggregate.ValueObjects.UserId>", b =>
@@ -398,7 +484,7 @@ namespace CarRentalService.Infrastructure.EF.Migrations
 
                             b1.HasIndex("VehicleId");
 
-                            b1.ToTable("Reservation", (string)null);
+                            b1.ToTable("Reservations", (string)null);
 
                             b1.HasOne("CarRentalService.Domain.RentalPointAggregate.RentalPoint", null)
                                 .WithMany()

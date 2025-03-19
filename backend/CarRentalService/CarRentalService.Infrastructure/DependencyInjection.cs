@@ -1,4 +1,5 @@
-﻿using CarRentalService.Application.Common.Interfaces.ReadServices;
+﻿using CarRentalService.Application.Behaviors;
+using CarRentalService.Application.Common.Interfaces.ReadServices;
 using CarRentalService.Application.Common.Interfaces.Services;
 using CarRentalService.Contracts.Configurations;
 using CarRentalService.Domain.Repositories;
@@ -31,6 +32,10 @@ namespace CarRentalService.Infrastructure
             services.AddMsSql(configuration)
                 .AddAuth(configuration);
 
+            //MediatR
+            services.AddMediatR(config =>
+                config.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly));
+
             //DI Vehicle
             services.AddScoped<IVehicleRepository, VehicleRepository>();
             services.AddScoped<IVehicleReadService, VehicleReadService>();
@@ -41,6 +46,10 @@ namespace CarRentalService.Infrastructure
 
             //DI Rental
             services.AddScoped<IRentalPointRepository, RentalPointRepository>();
+
+            //Configuration
+            services.Configure<CookiesConfig>(configuration.GetSection(CookiesConfig.SectionName));
+            
 
             return services;
         }

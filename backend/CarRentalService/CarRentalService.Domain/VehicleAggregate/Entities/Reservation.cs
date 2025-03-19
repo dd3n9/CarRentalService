@@ -7,7 +7,6 @@ namespace CarRentalService.Domain.VehicleAggregate.Entities
 {
     public class Reservation : Entity<ReservationId>
     {
-        public ReservationId Id { get; private set; }
         public UserId UserId { get; private set; }
         public VehicleId VehicleId { get; private set; }
         public RentalPointId PickupPointId { get; private set; }

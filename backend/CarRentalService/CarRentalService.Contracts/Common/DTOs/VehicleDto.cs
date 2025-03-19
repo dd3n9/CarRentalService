@@ -3,7 +3,7 @@
     public record VehicleDto(Guid Id, 
         string Brand,
         string Model,
-        double PricePerDay,
+        decimal PricePerDay,
         string Type,
         string LicensePlate,
         int Year,
