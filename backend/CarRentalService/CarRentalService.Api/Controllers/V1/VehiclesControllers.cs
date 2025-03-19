@@ -1,14 +1,10 @@
-﻿using Asp.Versioning;
-using CarRentalService.Application.Vehicles.Queries.GetAvailable;
+﻿using CarRentalService.Application.Vehicles.Queries.GetAvailable;
 using CarRentalService.Contracts.Common;
-using CarRentalService.Domain.RentalPointAggregate.ValueObjects;
-using CarRentalService.Domain.VehicleAggregate.ValueObjects;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarRentalService.Api.Controllers.V1
 {
-    [ApiController]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion("1.0")]
     public class VehiclesControllers : BaseController

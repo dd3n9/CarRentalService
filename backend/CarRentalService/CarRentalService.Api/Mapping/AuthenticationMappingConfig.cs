@@ -1,6 +1,7 @@
 ﻿using CarRentalService.Application.Authentication.Commands.Register;
+using CarRentalService.Application.Authentication.Queries.Login;
+using CarRentalService.Contracts.Authentication;
 using Mapster;
-using Microsoft.AspNetCore.Identity.Data;
 
 namespace CarRentalService.Api.Mapping
 {
@@ -9,6 +10,8 @@ namespace CarRentalService.Api.Mapping
         public void Register(TypeAdapterConfig config)
         {
             config.NewConfig<RegisterRequest, RegisterCommand>();
+
+            config.NewConfig<LoginRequest, LoginQuery>();
         }
     }
 }

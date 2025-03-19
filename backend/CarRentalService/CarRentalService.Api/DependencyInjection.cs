@@ -1,8 +1,10 @@
-﻿using Asp.Versioning;
+﻿using CarRentalService.Api.Extensions.SwaggerConfig;
 using CarRentalService.Api.Infrastructure;
 using Mapster;
 using MapsterMapper;
-using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 
 namespace CarRentalService.Api
@@ -13,8 +15,9 @@ namespace CarRentalService.Api
         {
             services.AddExceptionHandler<GlobalExceptionHandler>();
             services.AddVersionApiSetup()
-           .    AddMappings()
+                .AddMappings()
                 .AddSwagger();
+
 
             return services;
         }
@@ -26,14 +29,9 @@ namespace CarRentalService.Api
                 o.AssumeDefaultVersionWhenUnspecified = true;
                 o.DefaultApiVersion = new ApiVersion(1, 0);
                 o.ReportApiVersions = true;
-                o.ApiVersionReader = ApiVersionReader.Combine(
-                        new QueryStringApiVersionReader("api-version"),
-                        new HeaderApiVersionReader("X-Version"),
-                        new MediaTypeApiVersionReader("ver")
-                    );
-            }).AddApiExplorer(options =>
+            }).AddVersionedApiExplorer(options =>
             {
-                options.GroupNameFormat = "'v'VW";
+                options.GroupNameFormat = "'v'VVV";
                 options.SubstituteApiVersionInUrl = true;
             });
 
@@ -50,35 +48,14 @@ namespace CarRentalService.Api
         }
         private static IServiceCollection AddSwagger(this IServiceCollection services)
         {
-            services.AddSwaggerGen(option =>
+            services.AddTransient<IConfigureOptions<SwaggerGenOptions>, SwaggerConfigOptions>();
+
+            services.AddSwaggerGen(options =>
             {
-                option.SwaggerDoc("v1", new OpenApiInfo { Title = "Demo API", Version = "v1" });
-                option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                {
-                    In = ParameterLocation.Header,
-                    Description = "Please enter a valid token",
-                    Name = "Authorization",
-                    Type = SecuritySchemeType.Http,
-                    BearerFormat = "JWT",
-                    Scheme = "Bearer"
-                });
-                option.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
-                    {
-                        new OpenApiSecurityScheme
-                        {
-                            Name = "Bearer",
-                            In = ParameterLocation.Header,
-                            Reference = new OpenApiReference
-                            {
-                                Type=ReferenceType.SecurityScheme,
-                                Id="Bearer"
-                            }
-                        },
-                        new string[]{}
-                    }
-                });
+                options.DocumentFilter<SwaggerDocumentFilter>();
             });
+
+            services.AddSwaggerGen();
             return services;
         }
     }

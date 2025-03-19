@@ -1,5 +1,4 @@
-﻿using Asp.Versioning;
-using CarRentalService.Api.Extensions;
+﻿using CarRentalService.Api.Extensions;
 using CarRentalService.Application.Authentication.Commands.RefreshToken;
 using CarRentalService.Application.Authentication.Commands.Register;
 using CarRentalService.Application.Authentication.Commands.RevokeAllRefreshTokens;
@@ -15,7 +14,6 @@ using Microsoft.Extensions.Options;
 
 namespace CarRentalService.Api.Controllers.V1
 {
-    [ApiController]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion("1.0")]
     public class AuthenticationController : BaseController
