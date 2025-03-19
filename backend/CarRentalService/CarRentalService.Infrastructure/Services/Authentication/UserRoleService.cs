@@ -35,7 +35,15 @@ namespace CarRentalService.Infrastructure.Services.Authentication
             return await _userManager.GetRolesAsync(user);
         }
 
-        public async Task<Result> SeedRolesAsync()
+        public async Task<Result> SeedIdentityRoleDataAsync()
+        {
+            await SeedRolesAsync();
+            await SeedMockDataAsync();
+
+            return Result.Ok();
+        }
+
+        private async Task<Result> SeedRolesAsync()
         {
             bool isManagerRoleExists = await _roleManager.RoleExistsAsync(StaticUserRoles.MANAGER);
             bool isUserRoleExists = await _roleManager.RoleExistsAsync(StaticUserRoles.USER);
@@ -58,6 +66,24 @@ namespace CarRentalService.Infrastructure.Services.Authentication
             });
 
             return Result.Ok();
+        }
+
+        private async Task SeedMockDataAsync()
+        {
+            var managerEmail = "manager@example.com";
+            if (await _userManager.FindByEmailAsync(managerEmail) == null)
+            {
+                var manager = User.Create("John", "Manager", managerEmail, "ManagerPass123!");
+                var createResult = await _userManager.CreateAsync(manager, "ManagerPass123!");
+                if (createResult.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(manager, StaticUserRoles.MANAGER);
+                }
+                else
+                {
+                    throw new Exception($"Failed to create mock manager: {string.Join(", ", createResult.Errors.Select(e => e.Description))}");
+                }
+            }
         }
     }
 }

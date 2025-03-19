@@ -14,16 +14,16 @@ namespace CarRentalService.Domain.RentalPointAggregate
 
         private RentalPoint(
             RentalPointId rentalPointId,
-            string name, 
-            string address ) : base(rentalPointId)
+            RentalPointName name,
+            RentalPointAddress address ) : base(rentalPointId)
         {
             Name = name;
             Address = address;
         }
 
         public static RentalPoint Create(
-            string name,
-            string address)
+            RentalPointName name,
+            RentalPointAddress address)
         {
             var rentalPoint = new RentalPoint(
                 RentalPointId.CreateUnique(),

@@ -1,7 +1,9 @@
 ﻿using CarRentalService.Api.Extensions;
 using CarRentalService.Application.Reservations.Commands.Create;
+using CarRentalService.Contracts.Common.Constants;
 using CarRentalService.Contracts.Reservations;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarRentalService.Api.Controllers.V1
@@ -21,8 +23,6 @@ namespace CarRentalService.Api.Controllers.V1
         public async Task<IActionResult> CreateReservation([FromBody] CreateReservationRequest request, CancellationToken cancellationToken)
         {
             var userId = HttpContext.GetUserIdClaimValue();
-
-            //var userId = Guid.NewGuid().ToString();
 
             var command = new CreateReservationCommand(
                 userId,

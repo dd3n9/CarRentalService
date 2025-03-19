@@ -51,6 +51,10 @@ namespace CarRentalService.Infrastructure.EF.Config.WriteConfigurations
                 .HasConversion(value => value.Value, value => new VehicleSeats(value))
                 .IsRequired();
 
+            builder.Property(v => v.IsAvailable)
+                .IsRequired()
+                .HasDefaultValue(true);
+
             builder.Property(v => v.RentalPointId)
                 .IsRequired()
                 .HasConversion(rp => rp.Value, rp => new RentalPointId(rp));
@@ -122,6 +126,81 @@ namespace CarRentalService.Infrastructure.EF.Config.WriteConfigurations
                     .HasDefaultValueSql("GETUTCDATE()")
                     .ValueGeneratedOnAdd();
             });
+
+            //Seed Data
+            SeedVehicles(builder);
+        }
+
+
+        private void SeedVehicles(EntityTypeBuilder<Vehicle> builder)
+        {
+            builder.HasData(
+                new
+                {
+                    Id = VehicleId.CreateUnique(),
+                    Brand = new VehicleBrand("Toyota"),
+                    Model = new VehicleModel("Camry"),
+                    PricePerDay = new Price(50m),
+                    Type = VehicleType.Car,
+                    LicensePlate = new LicensePlate("KR1234AB"),
+                    Year = new VehicleYear(2020),
+                    Seats = new VehicleSeats(5),
+                    IsAvailable = true,
+                    RentalPointId = new RentalPointId(Guid.Parse("550e8400-e29b-41d4-a716-446655440100"))
+                },
+                new
+                {
+                    Id = VehicleId.CreateUnique(),
+                    Brand = new VehicleBrand("Honda"),
+                    Model = new VehicleModel("Civic"),
+                    PricePerDay = new Price(45m),
+                    Type = VehicleType.Car,
+                    LicensePlate = new LicensePlate("WA5678CD"),
+                    Year = new VehicleYear(2021),
+                    Seats = new VehicleSeats(5),
+                    IsAvailable = true,
+                    RentalPointId = new RentalPointId(Guid.Parse("550e8400-e29b-41d4-a716-446655440100"))
+                },
+                new
+                {
+                    Id = VehicleId.CreateUnique(),
+                    Brand = new VehicleBrand("Ford"),
+                    Model = new VehicleModel("Focus"),
+                    PricePerDay = new Price(40m),
+                    Type = VehicleType.Car,
+                    LicensePlate = new LicensePlate("PO9012EF"),
+                    Year = new VehicleYear(2019),
+                    Seats = new VehicleSeats(4),
+                    IsAvailable = true,
+                    RentalPointId = new RentalPointId(Guid.Parse("550e8400-e29b-41d4-a716-446655440101"))
+                },
+                 new
+                 {
+                     Id = VehicleId.CreateUnique(),
+                     Brand = new VehicleBrand("Ford"),
+                     Model = new VehicleModel("F-150"),
+                     PricePerDay = new Price(80m),
+                     Type = VehicleType.Truck,
+                     LicensePlate = new LicensePlate("PO4012FF"),
+                     Year = new VehicleYear(2018),
+                     Seats = new VehicleSeats(2),
+                     IsAvailable = true,
+                     RentalPointId = new RentalPointId(Guid.Parse("550e8400-e29b-41d4-a716-446655440101"))
+                 },
+                  new
+                  {
+                      Id = VehicleId.CreateUnique(),
+                      Brand = new VehicleBrand("Yamaha"),
+                      Model = new VehicleModel("MT-07"),
+                      PricePerDay = new Price(35m),
+                      Type = VehicleType.Motorcycle,
+                      LicensePlate = new LicensePlate("PO9014EL"),
+                      Year = new VehicleYear(2021),
+                      Seats = new VehicleSeats(2),
+                      IsAvailable = true,
+                      RentalPointId = new RentalPointId(Guid.Parse("550e8400-e29b-41d4-a716-446655440101"))
+                  }
+            );
         }
     }
 }

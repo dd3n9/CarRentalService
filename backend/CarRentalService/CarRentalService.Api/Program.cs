@@ -1,5 +1,6 @@
 using CarRentalService.Api;
 using CarRentalService.Application;
+using CarRentalService.Application.Common.Interfaces.Services;
 using CarRentalService.Infrastructure;
 using CarRentalService.Infrastructure.EF.Context;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -36,6 +37,13 @@ using (var serviceScope = app.Services.CreateScope())
 {
     using var dbContext = serviceScope.ServiceProvider.GetService<WriteDbContext>();
     dbContext?.Database.Migrate();
+
+    var roleService = serviceScope.ServiceProvider.GetRequiredService<IUserRoleService>();
+    var seedResult = await roleService.SeedIdentityRoleDataAsync();
+    if (seedResult.IsFailed)
+    {
+        throw new Exception("Failed to seed roles and mock manager: " + seedResult.Errors);
+    }
 };
 
 

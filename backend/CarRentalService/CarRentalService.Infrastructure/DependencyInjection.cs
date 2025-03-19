@@ -42,6 +42,10 @@ namespace CarRentalService.Infrastructure
             //DI Rental
             services.AddScoped<IRentalPointRepository, RentalPointRepository>();
 
+            //Configuration
+            services.Configure<CookiesConfig>(configuration.GetSection(CookiesConfig.SectionName));
+            
+
             return services;
         }
 
