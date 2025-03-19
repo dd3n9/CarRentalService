@@ -1,6 +1,8 @@
 ﻿using Asp.Versioning;
+using CarRentalService.Api.Extensions;
 using CarRentalService.Application.Authentication.Commands.RefreshToken;
 using CarRentalService.Application.Authentication.Commands.Register;
+using CarRentalService.Application.Authentication.Commands.RevokeAllRefreshTokens;
 using CarRentalService.Application.Authentication.Queries.Login;
 using CarRentalService.Contracts.Authentication;
 using CarRentalService.Contracts.Configurations;
@@ -108,6 +110,19 @@ namespace CarRentalService.Api.Controllers.V1
             }
 
             return OkOrNotFound(authResult);
+        }
+
+        [Route("revoke")]
+        [HttpDelete]
+        public async Task<IActionResult> RevokeAllRefreshTokens(CancellationToken cancellationToken)
+        {
+            var userId = HttpContext.GetUserIdClaimValue();
+
+            var command = new RevokeAllRefreshTokensCommand(userId);
+
+            var result = await _mediator.Send(command, cancellationToken);
+
+            return OkOrNotFound(result);
         }
     }
 }
