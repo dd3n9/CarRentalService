@@ -1,4 +1,5 @@
 ﻿using Asp.Versioning;
+using CarRentalService.Application.Authentication.Commands.RefreshToken;
 using CarRentalService.Application.Authentication.Commands.Register;
 using CarRentalService.Application.Authentication.Queries.Login;
 using CarRentalService.Contracts.Authentication;
@@ -72,6 +73,38 @@ namespace CarRentalService.Api.Controllers.V1
                 };
 
                 return OkOrNotFound(Result.Ok(response));
+            }
+
+            return OkOrNotFound(authResult);
+        }
+
+        [AllowAnonymous]
+        [Route("refreshToken")]
+        [HttpPost]
+        public async Task<IActionResult> RefreshToken(CancellationToken cancellationToken)
+        {
+            string? accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").LastOrDefault();
+
+            if (string.IsNullOrEmpty(accessToken))
+            {
+                return Unauthorized("Access token is missing or invalid.");
+            }
+
+            var command = new RefreshTokenCommand(accessToken, Request.Cookies[_cookiesConfig.CookiesKey]);
+
+            var authResult = await _mediator.Send(command, cancellationToken);
+
+            if (authResult.IsSuccess)
+            {
+                HttpContext.Response.Cookies.Append(_cookiesConfig.CookiesKey, authResult.Value.RefreshToken,
+                    new CookieOptions
+                    {
+                        HttpOnly = true,
+                        Secure = true,
+                        SameSite = SameSiteMode.None,
+                        Expires = DateTime.UtcNow.AddMonths(_jwtConfig.RefreshTokenExpiryMonths)
+                    });
+                return OkOrNotFound(Result.Ok(authResult.Value.Token));
             }
 
             return OkOrNotFound(authResult);
