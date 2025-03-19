@@ -72,6 +72,7 @@ namespace CarRentalService.Infrastructure.Queries.Vehicles
                 };
             }
 
+
             var vehicles = await CollectionHelper<VehicleReadModel>.ToPaginatedList(query, request.PaginationParams.PageNumber, request.PaginationParams.PageSize);
             var response = MapToVehicleResponse(vehicles);
 
@@ -86,10 +87,10 @@ namespace CarRentalService.Infrastructure.Queries.Vehicles
                     v.Brand,
                     v.Model,
                     v.PricePerDay,
+                    GetCityFromAddress(v.RentalPoint.Address),
                     v.Year,
                     v.Seats
-                ))
-                .ToList();
+                ));
 
             return new PaginatedList<VehicleResponse>(
                 vehicleResponses,
@@ -97,6 +98,23 @@ namespace CarRentalService.Infrastructure.Queries.Vehicles
                 vehicles.CurrentPage,
                 vehicles.PageSize
             );
+        }
+
+        private string GetCityFromAddress(string fullAddress)
+        {
+            if (string.IsNullOrEmpty(fullAddress))
+            {
+                return string.Empty;
+            }
+
+            var addressParts = fullAddress.Split(',');
+
+            if (addressParts.Length > 0)
+            {
+                return addressParts[0].Trim();
+            }
+
+            return string.Empty;
         }
     }
 }

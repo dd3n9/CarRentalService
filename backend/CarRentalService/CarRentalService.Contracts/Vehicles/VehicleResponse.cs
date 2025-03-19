@@ -3,7 +3,8 @@
     public record VehicleResponse(Guid VehicleId, 
         string Brand, 
         string Model, 
-        double PricePerDay, 
+        decimal PricePerDay, 
+        string City,
         int Year, 
         int Seats
     );
