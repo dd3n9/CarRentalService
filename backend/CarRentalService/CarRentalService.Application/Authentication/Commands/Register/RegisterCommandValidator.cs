@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CarRentalService.Application.Authentication.Register
+namespace CarRentalService.Application.Authentication.Commands.Register
 {
     internal class RegisterCommandValidator
     {

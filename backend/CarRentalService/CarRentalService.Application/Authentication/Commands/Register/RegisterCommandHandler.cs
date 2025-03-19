@@ -7,7 +7,7 @@ using CarRentalService.Domain.UserAggregate;
 using FluentResults;
 using MediatR;
 
-namespace CarRentalService.Application.Authentication.Register
+namespace CarRentalService.Application.Authentication.Commands.Register
 {
     public class RegisterCommandHandler : IRequestHandler<RegisterCommand, Result>
     {
@@ -16,7 +16,7 @@ namespace CarRentalService.Application.Authentication.Register
         private readonly IUserRoleService _userRoleService;
 
         public RegisterCommandHandler(IUserRepository userRepository,
-            IUserRoleService userRoleService, 
+            IUserRoleService userRoleService,
             IUserReadService userReadService)
         {
             _userRepository = userRepository;
