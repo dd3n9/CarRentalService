@@ -10,6 +10,7 @@ namespace CarRentalService.Infrastructure.EF.Context
         {
         }
 
+        public DbSet<UserReadModel> Users { get; set; }
         public DbSet<VehicleReadModel> Vehicles { get; set; }
         public DbSet<ReservationReadModel> Reservations { get; set; }
         public DbSet<RentalPointReadModel> RentalPoints { get; set; }

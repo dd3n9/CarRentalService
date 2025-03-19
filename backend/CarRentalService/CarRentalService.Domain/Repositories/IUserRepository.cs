@@ -7,7 +7,7 @@ namespace CarRentalService.Domain.Repositories
     public interface IUserRepository
     {
         Task<User> GetByIdAsync(UserId id, CancellationToken cancellationToken);
-        Task<Result> AddAsync(User applicationUser, CancellationToken cancellationToken);
+        Task<Result> AddAsync(User applicationUser, string password, CancellationToken cancellationToken);
         void Update(User applicationUser, CancellationToken cancellationToken);
         Task SaveChangesAsync(CancellationToken cancellationToken);
     }
