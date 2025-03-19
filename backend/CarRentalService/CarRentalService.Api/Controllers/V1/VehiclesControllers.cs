@@ -1,6 +1,7 @@
 ﻿using CarRentalService.Application.Vehicles.Queries.GetAvailable;
 using CarRentalService.Contracts.Common;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarRentalService.Api.Controllers.V1
@@ -16,6 +17,7 @@ namespace CarRentalService.Api.Controllers.V1
             _mediator = mediator;
         }
 
+        [AllowAnonymous]
         [HttpGet("available")]
         public async Task<IActionResult> GetAvailableVehicles(
             [FromQuery] string? city,

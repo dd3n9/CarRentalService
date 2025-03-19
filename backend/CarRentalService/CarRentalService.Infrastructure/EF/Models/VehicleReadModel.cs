@@ -8,6 +8,7 @@
         public string Type { get; set; }
         public string LicensePlate { get; set; }
         public int Year { get; set; }
+        public bool IsAvailable { get; set; }
         public int Seats { get; set; }
 
         public RentalPointReadModel RentalPoint { get; set; }

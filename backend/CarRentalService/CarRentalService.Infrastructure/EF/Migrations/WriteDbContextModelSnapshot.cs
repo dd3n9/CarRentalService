@@ -192,7 +192,7 @@ namespace CarRentalService.Infrastructure.EF.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("3e856063-99de-45ac-bbd9-a10fb8c6fe3a"),
+                            Id = new Guid("6cd52b97-b4f7-41c7-a4df-37bf112fc672"),
                             Brand = "Toyota",
                             IsAvailable = true,
                             LicensePlate = "KR1234AB",
@@ -205,7 +205,7 @@ namespace CarRentalService.Infrastructure.EF.Migrations
                         },
                         new
                         {
-                            Id = new Guid("715db536-3816-46f8-9163-95cfb6c7b265"),
+                            Id = new Guid("fa4c757a-cefe-498c-8f69-dc9338f59d8d"),
                             Brand = "Honda",
                             IsAvailable = true,
                             LicensePlate = "WA5678CD",
@@ -218,7 +218,7 @@ namespace CarRentalService.Infrastructure.EF.Migrations
                         },
                         new
                         {
-                            Id = new Guid("e76e0895-81bb-4cc3-8ac4-fb4e84889c1c"),
+                            Id = new Guid("89df28b2-b79b-41cb-84c9-8b30d16a66a1"),
                             Brand = "Ford",
                             IsAvailable = true,
                             LicensePlate = "PO9012EF",
@@ -231,7 +231,7 @@ namespace CarRentalService.Infrastructure.EF.Migrations
                         },
                         new
                         {
-                            Id = new Guid("aea5884b-7d57-4f97-b500-381fa747e990"),
+                            Id = new Guid("fbdb89f8-ee46-4833-bcfa-de7431d3ad08"),
                             Brand = "Ford",
                             IsAvailable = true,
                             LicensePlate = "PO4012FF",
@@ -244,7 +244,7 @@ namespace CarRentalService.Infrastructure.EF.Migrations
                         },
                         new
                         {
-                            Id = new Guid("edfab026-656b-46c5-92bd-ad82001d298c"),
+                            Id = new Guid("2c903c06-07cb-4f4a-891f-d7a6c67e8580"),
                             Brand = "Yamaha",
                             IsAvailable = true,
                             LicensePlate = "PO9014EL",
@@ -484,7 +484,7 @@ namespace CarRentalService.Infrastructure.EF.Migrations
 
                             b1.HasIndex("VehicleId");
 
-                            b1.ToTable("Reservation", (string)null);
+                            b1.ToTable("Reservations", (string)null);
 
                             b1.HasOne("CarRentalService.Domain.RentalPointAggregate.RentalPoint", null)
                                 .WithMany()

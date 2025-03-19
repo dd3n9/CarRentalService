@@ -65,7 +65,7 @@ namespace CarRentalService.Infrastructure.EF.Config.WriteConfigurations
 
             builder.OwnsMany(v => v.Reservations, r =>
             {
-                r.ToTable("Reservation");
+                r.ToTable("Reservations");
 
                 r.WithOwner()
                     .HasForeignKey(r => r.VehicleId);

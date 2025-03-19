@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace CarRentalService.Infrastructure.EF.Migrations
 {
     /// <inheritdoc />
@@ -74,11 +76,12 @@ namespace CarRentalService.Infrastructure.EF.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Brand = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Model = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    PricePerDay = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LicensePlate = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Year = table.Column<int>(type: "int", nullable: false),
                     Seats = table.Column<int>(type: "int", nullable: false),
+                    IsAvailable = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
                     RentalPointId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()")
                 },
@@ -106,6 +109,28 @@ namespace CarRentalService.Infrastructure.EF.Migrations
                         principalTable: "Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RefreshToken",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Token = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    JwtId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AddedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    ExpiryDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RefreshToken", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RefreshToken_Users_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -194,7 +219,7 @@ namespace CarRentalService.Infrastructure.EF.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Reservation",
+                name: "Reservations",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -210,51 +235,77 @@ namespace CarRentalService.Infrastructure.EF.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Reservation", x => x.Id);
+                    table.PrimaryKey("PK_Reservations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Reservation_RentalPoints_PickupPointId",
+                        name: "FK_Reservations_RentalPoints_PickupPointId",
                         column: x => x.PickupPointId,
                         principalTable: "RentalPoints",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Reservation_RentalPoints_ReturnPointId",
+                        name: "FK_Reservations_RentalPoints_ReturnPointId",
                         column: x => x.ReturnPointId,
                         principalTable: "RentalPoints",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Reservation_Users_UserId",
+                        name: "FK_Reservations_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Reservation_Vehicles_VehicleId",
+                        name: "FK_Reservations_Vehicles_VehicleId",
                         column: x => x.VehicleId,
                         principalTable: "Vehicles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "RentalPoints",
+                columns: new[] { "Id", "Address", "Name" },
+                values: new object[,]
+                {
+                    { new Guid("550e8400-e29b-41d4-a716-446655440100"), "Warsaw, Main St 1", "Warsaw Central" },
+                    { new Guid("550e8400-e29b-41d4-a716-446655440101"), "Katowice, Central Ave 10", "Katowice Station" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Vehicles",
+                columns: new[] { "Id", "Brand", "IsAvailable", "LicensePlate", "Model", "PricePerDay", "RentalPointId", "Seats", "Type", "Year" },
+                values: new object[,]
+                {
+                    { new Guid("2c903c06-07cb-4f4a-891f-d7a6c67e8580"), "Yamaha", true, "PO9014EL", "MT-07", 35m, new Guid("550e8400-e29b-41d4-a716-446655440101"), 2, "Motorcycle", 2021 },
+                    { new Guid("6cd52b97-b4f7-41c7-a4df-37bf112fc672"), "Toyota", true, "KR1234AB", "Camry", 50m, new Guid("550e8400-e29b-41d4-a716-446655440100"), 5, "Car", 2020 },
+                    { new Guid("89df28b2-b79b-41cb-84c9-8b30d16a66a1"), "Ford", true, "PO9012EF", "Focus", 40m, new Guid("550e8400-e29b-41d4-a716-446655440101"), 4, "Car", 2019 },
+                    { new Guid("fa4c757a-cefe-498c-8f69-dc9338f59d8d"), "Honda", true, "WA5678CD", "Civic", 45m, new Guid("550e8400-e29b-41d4-a716-446655440100"), 5, "Car", 2021 },
+                    { new Guid("fbdb89f8-ee46-4833-bcfa-de7431d3ad08"), "Ford", true, "PO4012FF", "F-150", 80m, new Guid("550e8400-e29b-41d4-a716-446655440101"), 2, "Truck", 2018 }
+                });
+
             migrationBuilder.CreateIndex(
-                name: "IX_Reservation_PickupPointId",
-                table: "Reservation",
+                name: "IX_RefreshToken_ApplicationUserId",
+                table: "RefreshToken",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reservations_PickupPointId",
+                table: "Reservations",
                 column: "PickupPointId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reservation_ReturnPointId",
-                table: "Reservation",
+                name: "IX_Reservations_ReturnPointId",
+                table: "Reservations",
                 column: "ReturnPointId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reservation_UserId",
-                table: "Reservation",
+                name: "IX_Reservations_UserId",
+                table: "Reservations",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reservation_VehicleId",
-                table: "Reservation",
+                name: "IX_Reservations_VehicleId",
+                table: "Reservations",
                 column: "VehicleId");
 
             migrationBuilder.CreateIndex(
@@ -301,7 +352,10 @@ namespace CarRentalService.Infrastructure.EF.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Reservation");
+                name: "RefreshToken");
+
+            migrationBuilder.DropTable(
+                name: "Reservations");
 
             migrationBuilder.DropTable(
                 name: "RoleClaims");
