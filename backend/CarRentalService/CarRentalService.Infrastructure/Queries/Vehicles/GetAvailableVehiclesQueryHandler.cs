@@ -45,6 +45,11 @@ namespace CarRentalService.Infrastructure.Queries.Vehicles
                     r.EndDate >= currentTime));
             }
 
+            if (!string.IsNullOrWhiteSpace(request.VehicleType))
+            {
+                query = query.Where(v => v.Type == request.VehicleType);
+            }
+
             if (request.YearFrom.HasValue)
             {
                 query = query.Where(v => v.Year >= request.YearFrom);

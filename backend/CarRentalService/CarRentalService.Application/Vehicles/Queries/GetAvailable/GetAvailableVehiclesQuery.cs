@@ -9,6 +9,7 @@ namespace CarRentalService.Application.Vehicles.Queries.GetAvailable
         string? City,
         DateTime? StartDate,
         DateTime? EndDate,
+        string? VehicleType,
         int? YearFrom,
         int? YearTo,
         string? SearchTerm,

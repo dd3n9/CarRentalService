@@ -4,6 +4,7 @@ using CarRentalService.Application.Vehicles.Commands.DeleteVehicle;
 using CarRentalService.Application.Vehicles.Commands.ReturnVehicle;
 using CarRentalService.Application.Vehicles.Queries.GetAvailable;
 using CarRentalService.Application.Vehicles.Queries.GetDetails;
+using CarRentalService.Application.Vehicles.Queries.GetVehiclesReportPdf;
 using CarRentalService.Contracts.Common;
 using CarRentalService.Contracts.Common.Constants;
 using CarRentalService.Contracts.Vehicles.Requests;
@@ -30,6 +31,7 @@ namespace CarRentalService.Api.Controllers.V1
             [FromQuery] string? city,
             [FromQuery] DateTime? startDate,
             [FromQuery] DateTime? endDate,
+            [FromQuery] string? vehicleType,
             [FromQuery] int? yearFrom,
             [FromQuery] int? yearTo,
             [FromQuery] string? searchTerm,
@@ -43,11 +45,31 @@ namespace CarRentalService.Api.Controllers.V1
                 PageNumber = pageNumber
             };
 
-            var query = new GetAvailableVehiclesQuery(city, startDate, endDate, yearFrom, yearTo, searchTerm, sortByPrice, paginationParams);
+            var query = new GetAvailableVehiclesQuery(city, startDate, endDate, vehicleType, yearFrom, yearTo, searchTerm, sortByPrice, paginationParams);
 
             var result = await _mediator.Send(query);
 
             return OkOrNotFound(result);
+        }
+
+        [Authorize(Roles = StaticUserRoles.MANAGER)]
+        [HttpGet("report-pdf")]
+        public async Task<IActionResult> GetVehiclesAsPdf(
+            [FromQuery] string? city,
+            [FromQuery] int? yearFrom,
+            [FromQuery] int? yearTo,
+            [FromQuery] int? seats,
+            [FromQuery] string? type)
+        {
+            var query = new GetVehiclesReportPdfQuery(city, yearFrom, yearTo, seats, type);
+            var pdfBytes = await _mediator.Send(query);
+
+            if (pdfBytes == null)
+            {
+                return NotFound("No available vehicles found.");
+            }
+
+            return File(pdfBytes, "application/pdf", "VehiclesReport.pdf");
         }
 
         [HttpPost]
