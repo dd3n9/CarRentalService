@@ -22,7 +22,7 @@ namespace CarRentalService.Api.Infrastructure
         {
             ProblemDetails problemDetails = exception switch
             {
-                CustomException ddFilmEx => CreateProblemDetails(StatusCodes.Status404NotFound,
+                CustomException carRentEx => CreateProblemDetails(StatusCodes.Status404NotFound,
                     "Server Error", exception.Message),
                 CustomValidationException => CreateProblemDetails(StatusCodes.Status400BadRequest,
                     "Validation error", "One or more validation errors occurred"),

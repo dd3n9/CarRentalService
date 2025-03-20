@@ -16,10 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Vehicles\Commands\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\CarRentalService.Contracts\CarRentalService.Contracts.csproj" />
     <ProjectReference Include="..\CarRentalService.Domain\CarRentalService.Domain.csproj" />
   </ItemGroup>

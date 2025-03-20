@@ -3,6 +3,7 @@ using CarRentalService.Domain.VehicleAggregate;
 using CarRentalService.Domain.VehicleAggregate.ValueObjects;
 using CarRentalService.Infrastructure.EF.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Threading;
 
 namespace CarRentalService.Infrastructure.EF.Repositories
 {
@@ -29,6 +30,18 @@ namespace CarRentalService.Infrastructure.EF.Repositories
                 .FirstOrDefaultAsync(v => v.Id == id, cancellationToken);
         }
 
+        public async Task<Vehicle?> GetByReservationIdAsync(ReservationId reservationId, CancellationToken cancellationToken)
+        {
+            return await _vehicles
+                .Include(v => v.Reservations)
+                .SingleOrDefaultAsync(v => v.Reservations.Any(r => r.Id == reservationId), cancellationToken);
+        }
+
+        public async Task<Vehicle?> GetByLicensePlateAsync(LicensePlate licensePlate, CancellationToken cancellationToken)
+        {
+            return await _vehicles.SingleOrDefaultAsync(v => v.LicensePlate == licensePlate, cancellationToken);
+        }
+
         public void Update(Vehicle vehicle)
         {
             if (vehicle is null)
@@ -47,13 +60,6 @@ namespace CarRentalService.Infrastructure.EF.Repositories
         public async Task SaveChangesAsync(CancellationToken cancellationToken)
         {
             await _writeDbContext.SaveChangesAsync(cancellationToken);
-        }
-
-        public async Task<Vehicle?> GetByReservationIdAsync(ReservationId reservationId, CancellationToken cancellationToken)
-        {
-            return await _vehicles
-                .Include(v => v.Reservations)
-                .SingleOrDefaultAsync(v => v.Reservations.Any(r => r.Id == reservationId), cancellationToken);  
         }
     }
 }

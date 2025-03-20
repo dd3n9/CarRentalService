@@ -106,5 +106,11 @@ namespace CarRentalService.Domain.VehicleAggregate
             _reservations.Remove(reservation);
             return Result.Ok();
         }
+
+        public void MakeAvailable(RentalPointId returnPointId)
+        {
+            RentalPointId = returnPointId;
+            IsAvailable = true;
+        }
     }
 }
