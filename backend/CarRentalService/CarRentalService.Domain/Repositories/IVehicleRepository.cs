@@ -7,6 +7,7 @@ namespace CarRentalService.Domain.Repositories
     {
         Task<Vehicle?> GetByIdAsync(VehicleId id, CancellationToken cancellationToken);
         Task<Vehicle?> GetByReservationIdAsync(ReservationId reservationId, CancellationToken cancellationToken);
+        Task<Vehicle?> GetByLicensePlateAsync(LicensePlate licensePlate, CancellationToken cancellationToken);
         Task AddAsync(Vehicle vehicle, CancellationToken cancellationToken);
         void Update(Vehicle vehicle);
         void Delete(Vehicle vehicle);

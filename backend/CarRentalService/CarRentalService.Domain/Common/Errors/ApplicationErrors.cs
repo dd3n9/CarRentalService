@@ -18,10 +18,16 @@ namespace CarRentalService.Domain.Common.Errors
         {
             public static readonly Error NotFound = new Error("Vehicle was not found.")
                 .WithMetadata("ErrorCode", "Vehicle.NotFound");
+            public static readonly Error AlreadyExists = new Error("Vehicle already exists.")
+                .WithMetadata("ErrorCode", "Vehicle.AlreadyExists");
             public static readonly Error VehicleNotAvailableForSelectedTime = new Error("Vehicle is not available for this time slot.")
                 .WithMetadata("ErrorCode", "Vehicle.NotAvailableForSelectedTime");
             public static readonly Error RentalPointLocationError = new Error("Vehicle is not located at the specified pickup point.")
                 .WithMetadata("ErrorCode", "Vehicle.RentalPointLocationError");
+            public static readonly Error InvalidVehicleType = new Error("Invalid vehicle type provided.")
+                .WithMetadata("ErrorCode", "Vehicle.InvalidVehicleType");
+            public static readonly Error CannotDeleteWithActiveReservations = new Error("Cannot delete vehicle with active reservations.")
+                .WithMetadata("ErrorCode", "Vehicle.CannotDeleteWithActiveReservations");
         }
 
         public static class Reservation 

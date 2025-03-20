@@ -1,8 +1,12 @@
 ﻿using CarRentalService.Api.Extensions;
+using CarRentalService.Application.Vehicles.Commands.CreateVehicle;
+using CarRentalService.Application.Vehicles.Commands.DeleteVehicle;
 using CarRentalService.Application.Vehicles.Commands.ReturnVehicle;
 using CarRentalService.Application.Vehicles.Queries.GetAvailable;
 using CarRentalService.Application.Vehicles.Queries.GetDetails;
 using CarRentalService.Contracts.Common;
+using CarRentalService.Contracts.Common.Constants;
+using CarRentalService.Contracts.Vehicles.Requests;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,11 +15,11 @@ namespace CarRentalService.Api.Controllers.V1
 {
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion("1.0")]
-    public class VehiclesControllers : BaseController
+    public class VehiclesController : BaseController
     {
         private readonly ISender _mediator;
 
-        public VehiclesControllers(ISender mediator)
+        public VehiclesController(ISender mediator)
         {
             _mediator = mediator;
         }
@@ -46,6 +50,25 @@ namespace CarRentalService.Api.Controllers.V1
             return OkOrNotFound(result);
         }
 
+        [HttpPost]
+        [Authorize(Roles = StaticUserRoles.MANAGER)]
+        public async Task<IActionResult> CreateVehicle([FromBody] CreateVehicleRequest request)
+        {
+            var command = new CreateVehicleCommand(
+                request.VehicleBrand,
+                request.VehicleModel,
+                request.PricePerDay,
+                request.VehicleType,
+                request.LicensePlate,
+                request.VehicleYear,
+                request.VehicleSeats,
+                request.RentalPointId);
+
+            var result = await _mediator.Send(command);
+
+            return OkOrNotFound(result);
+        }
+
         [AllowAnonymous]
         [HttpGet("{vehicleId:guid}/details")]
         public async Task<IActionResult> GetVehicleDetails([FromRoute] Guid vehicleId)
@@ -62,6 +85,16 @@ namespace CarRentalService.Api.Controllers.V1
             var userId = HttpContext.GetUserIdClaimValue();
 
             var command = new ReturnVehicleCommand(userId, reservationId);
+            var result = await _mediator.Send(command);
+
+            return OkOrNotFound(result);
+        }
+
+        [HttpDelete("{vehicleId:guid}")]
+        [Authorize(Roles = StaticUserRoles.MANAGER)]
+        public async Task<IActionResult> DeleteVehicle([FromRoute] Guid vehicleId)
+        {
+            var command = new DeleteVehicleCommand(vehicleId);
             var result = await _mediator.Send(command);
 
             return OkOrNotFound(result);
