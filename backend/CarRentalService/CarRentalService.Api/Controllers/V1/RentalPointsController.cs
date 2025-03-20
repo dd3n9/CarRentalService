@@ -1,4 +1,6 @@
 ﻿using CarRentalService.Application.RentalPoints.Commands.Create;
+using CarRentalService.Application.RentalPoints.Commands.Delete;
+using CarRentalService.Application.RentalPoints.Queries;
 using CarRentalService.Contracts.Common.Constants;
 using CarRentalService.Contracts.RentalPoints.Requests;
 using MediatR;
@@ -18,12 +20,30 @@ namespace CarRentalService.Api.Controllers.V1
             _mediator = mediator;
         }
 
+        [HttpGet("suggestions")]
+        public async Task<IActionResult> GetRentalPointSuggestions([FromQuery] string prefix, CancellationToken cancellationToken)
+        {
+            var query = new GetRentalPointSuggestionsQuery(prefix);
+            var result = await _mediator.Send(query, cancellationToken);
+
+            return OkOrNotFound(result);
+        }
 
         [HttpPost]
         [Authorize(Roles = StaticUserRoles.MANAGER)]
         public async Task<IActionResult> CreateRentalPoint([FromBody] CreateRentalPointRequest request)
         {
             var command = new CreateRentalPointCommand(request.Name, request.City, request.Street);
+            var result = await _mediator.Send(command);
+
+            return OkOrNotFound(result);
+        }
+
+        [HttpDelete]
+        [Authorize(Roles = StaticUserRoles.MANAGER)]
+        public async Task<IActionResult> DeleteRentalPoint([FromQuery] Guid rentalPointId)
+        {
+            var command = new DeleteRentalPointCommand(rentalPointId);
             var result = await _mediator.Send(command);
 
             return OkOrNotFound(result);
