@@ -91,11 +91,14 @@ namespace CarRentalService.Domain.VehicleAggregate
             return Result.Ok(reservation);
         }
 
-        public Result RemoveReservation(ReservationId reservationId)
+        public Result RemoveReservation(UserId userId, ReservationId reservationId)
         {
             var reservation = _reservations.SingleOrDefault(r => r.Id == reservationId);
             if (reservation is null)
                 return Result.Fail(ApplicationErrors.Reservation.NotFound);
+
+            if (reservation.UserId != userId)
+                return Result.Fail(ApplicationErrors.Reservation.AccessDenied);
 
             if (reservation.StartDate < DateTime.UtcNow)
                 return Result.Fail(ApplicationErrors.Reservation.EditableTimeExpired);

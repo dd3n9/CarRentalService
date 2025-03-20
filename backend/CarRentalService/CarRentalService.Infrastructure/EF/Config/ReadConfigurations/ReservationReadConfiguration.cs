@@ -8,6 +8,8 @@ namespace CarRentalService.Infrastructure.EF.Config.ReadConfigurations
     {
         public void Configure(EntityTypeBuilder<ReservationReadModel> builder)
         {
+            builder.ToTable("Reservations");
+
             builder.HasKey(rp => rp.Id);
 
             builder.HasOne(r => r.Vehicle)

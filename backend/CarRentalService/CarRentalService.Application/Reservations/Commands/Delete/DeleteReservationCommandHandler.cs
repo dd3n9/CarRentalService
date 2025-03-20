@@ -22,7 +22,7 @@ namespace CarRentalService.Application.Reservations.Commands.Delete
                 return Result.Fail(ApplicationErrors.Reservation.NotFound);
             }
 
-            var result = vehicle.RemoveReservation(request.ReservationId);
+            var result = vehicle.RemoveReservation(request.UserId, request.ReservationId);
             if (result.IsSuccess)
             {
                 _vehicleRepository.Update(vehicle);
