@@ -1,6 +1,7 @@
 using CarRentalService.Api;
 using CarRentalService.Application;
 using CarRentalService.Application.Common.Interfaces.Services;
+using CarRentalService.Domain;
 using CarRentalService.Infrastructure;
 using CarRentalService.Infrastructure.EF.Context;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -11,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddPresentation()
     .AddApplication()
+    .AddDomain()
     .AddInfrastructure(builder.Configuration);
 
 builder.Services.AddControllers();

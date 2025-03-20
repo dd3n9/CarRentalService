@@ -38,6 +38,7 @@ namespace CarRentalService.Infrastructure.Services.Authentication
 
             var authResult = await GenerateTokensForUserAsync(user);
             _userRepository.Update(user, cancellationToken);
+            await _userRepository.SaveChangesAsync(cancellationToken);
 
             return Result.Ok(authResult);
         }
@@ -64,6 +65,7 @@ namespace CarRentalService.Infrastructure.Services.Authentication
 
             var newAuthResult = await GenerateTokensForUserAsync(user);
             _userRepository.Update(user, cancellationToken);
+            await _userRepository.SaveChangesAsync(cancellationToken);
 
             return Result.Ok(newAuthResult);
         }
@@ -111,6 +113,7 @@ namespace CarRentalService.Infrastructure.Services.Authentication
             user.RevokeAllRefreshTokens();
 
             _userRepository.Update(user, cancellationToken);
+            await _userRepository.SaveChangesAsync(cancellationToken);
 
             return Result.Ok();
         }

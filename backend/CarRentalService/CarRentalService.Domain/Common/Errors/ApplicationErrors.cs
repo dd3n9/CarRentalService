@@ -30,8 +30,12 @@ namespace CarRentalService.Domain.Common.Errors
                 .WithMetadata("ErrorCode", "Reservation.NotFound");
             public static readonly Error EditableTimeExpired = new Error("The reservation`s editable time period has expired.")
                 .WithMetadata("ErrorCode", "Reservation.EditableTimeExpired");
-            public static readonly Error AccessDenied = new Error("Access to remove reservation is denied.")
+            public static readonly Error AccessDenied = new Error("Access to modify the reservation is denied.")
                 .WithMetadata("ErrorCode", "Reservation.AccessDenied");
+            public static readonly Error NotActive = new Error("Only active reservations can be completed.")
+                .WithMetadata("ErrorCode", "Reservation.NotActive");
+            public static readonly Error InvalidReturnDate = new Error("Cannot complete reservation before it starts.")
+                .WithMetadata("ErrorCode", "Reservation.InvalidReturnDate");
         }
 
 

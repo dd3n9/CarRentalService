@@ -1,7 +1,9 @@
-﻿using CarRentalService.Domain.Common.Models;
+﻿using CarRentalService.Domain.Common.Errors;
+using CarRentalService.Domain.Common.Models;
 using CarRentalService.Domain.RentalPointAggregate.ValueObjects;
 using CarRentalService.Domain.UserAggregate.ValueObjects;
 using CarRentalService.Domain.VehicleAggregate.ValueObjects;
+using FluentResults;
 
 namespace CarRentalService.Domain.VehicleAggregate.Entities
 {
@@ -57,6 +59,19 @@ namespace CarRentalService.Domain.VehicleAggregate.Entities
                 endDate);
 
             return reservation;
+        }
+
+        public Result Complete(ReservationDate returnDate)
+        {
+            if (Status != ReservationStatus.Active)
+                return Result.Fail(ApplicationErrors.Reservation.NotActive);
+            if (returnDate.Value < StartDate.Value)
+                return Result.Fail(ApplicationErrors.Reservation.InvalidReturnDate);
+
+            Status = ReservationStatus.Completed;
+            ReturnedDate = returnDate;
+
+            return Result.Ok();
         }
     }
 }

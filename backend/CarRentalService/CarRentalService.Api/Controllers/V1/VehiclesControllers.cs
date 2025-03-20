@@ -1,4 +1,6 @@
-﻿using CarRentalService.Application.Vehicles.Queries.GetAvailable;
+﻿using CarRentalService.Api.Extensions;
+using CarRentalService.Application.Vehicles.Commands.ReturnVehicle;
+using CarRentalService.Application.Vehicles.Queries.GetAvailable;
 using CarRentalService.Application.Vehicles.Queries.GetDetails;
 using CarRentalService.Contracts.Common;
 using MediatR;
@@ -46,11 +48,22 @@ namespace CarRentalService.Api.Controllers.V1
 
         [AllowAnonymous]
         [HttpGet("{vehicleId:guid}/details")]
-        public async Task<IActionResult> GetVehicleDetails(Guid vehicleId)
+        public async Task<IActionResult> GetVehicleDetails([FromRoute] Guid vehicleId)
         {
             var query = new GetVehicleDetailsQuery(vehicleId);
             var result = await _mediator.Send(query);
             
+            return OkOrNotFound(result);
+        }
+
+        [HttpPost("{reservationId:guid}/return")]
+        public async Task<IActionResult> ReturnVehicle([FromRoute] Guid reservationId)
+        {
+            var userId = HttpContext.GetUserIdClaimValue();
+
+            var command = new ReturnVehicleCommand(userId, reservationId);
+            var result = await _mediator.Send(command);
+
             return OkOrNotFound(result);
         }
     }
