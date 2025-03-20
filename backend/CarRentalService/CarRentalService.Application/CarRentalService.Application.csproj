@@ -16,7 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Reservations\Queries\" />
     <Folder Include="Vehicles\Commands\" />
   </ItemGroup>
 

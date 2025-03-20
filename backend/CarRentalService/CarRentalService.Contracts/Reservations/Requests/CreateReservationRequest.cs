@@ -1,8 +1,8 @@
-﻿namespace CarRentalService.Contracts.Reservations
+﻿namespace CarRentalService.Contracts.Reservations.Requests
 {
     public record CreateReservationRequest(Guid VehicleId,
         Guid PickupPointId,
-        Guid ReturnPointId, 
+        Guid ReturnPointId,
         DateTime StartDate,
         DateTime EndDate);
 }
