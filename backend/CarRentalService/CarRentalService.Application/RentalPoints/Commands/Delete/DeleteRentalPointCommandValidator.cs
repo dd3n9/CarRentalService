@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FluentValidation;
 
 namespace CarRentalService.Application.RentalPoints.Commands.Delete
 {
-    internal class DeleteRentalPointCommandValidator
+    public class DeleteRentalPointCommandValidator : AbstractValidator<DeleteRentalPointCommand>
     {
+        public DeleteRentalPointCommandValidator()
+        {
+            RuleFor(x => x.RentalPointId)
+                .NotEqual(Guid.Empty).WithMessage("Rental Point ID cannot be empty");
+        }
     }
 }

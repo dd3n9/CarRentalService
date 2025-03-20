@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CarRentalService.Application.Common.Validations;
+using FluentValidation;
 
 namespace CarRentalService.Application.Vehicles.Queries.GetAvailable
 {
-    internal class GetAvailableVehiclesQueryValidator
+    public class GetAvailableVehiclesQueryValidator : AbstractValidator<GetAvailableVehiclesQuery>
     {
+        public GetAvailableVehiclesQueryValidator()
+        {
+            RuleFor(q => q.PaginationParams)
+                .NotNull().WithMessage("Pagination parameters are required.")
+                .SetValidator(new PaginationParamsValidator());
+        }
     }
 }

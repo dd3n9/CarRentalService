@@ -3,5 +3,5 @@ using MediatR;
 
 namespace CarRentalService.Application.RentalPoints.Commands.Delete
 {
-    public record DeleteRentalPointCommand(Guid rentalPointId) : IRequest<Result>;
+    public record DeleteRentalPointCommand(Guid RentalPointId) : IRequest<Result>;
 }
