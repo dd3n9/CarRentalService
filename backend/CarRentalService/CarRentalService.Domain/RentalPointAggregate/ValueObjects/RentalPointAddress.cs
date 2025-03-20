@@ -18,5 +18,8 @@ namespace CarRentalService.Domain.RentalPointAggregate.ValueObjects
 
         public static implicit operator string(RentalPointAddress value)
             => value.Value;
+
+        public static RentalPointAddress Create(string city, string street)
+            => $"{city}, {street}";
     }
 }

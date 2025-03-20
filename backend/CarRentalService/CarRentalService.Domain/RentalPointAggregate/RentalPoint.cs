@@ -23,12 +23,13 @@ namespace CarRentalService.Domain.RentalPointAggregate
 
         public static RentalPoint Create(
             RentalPointName name,
-            RentalPointAddress address)
+            string city, 
+            string street)
         {
             var rentalPoint = new RentalPoint(
                 RentalPointId.CreateUnique(),
                 name,
-                address);
+                RentalPointAddress.Create(city, street));
 
             return rentalPoint;
         }

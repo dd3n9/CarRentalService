@@ -28,6 +28,11 @@ namespace CarRentalService.Infrastructure.EF.Repositories
                 .FirstOrDefaultAsync(v => v.Id == id, cancellationToken);
         }
 
+        public async Task<RentalPoint?> GetByNameAsync(RentalPointName rentalPointName, CancellationToken cancellationToken)
+        {
+            return await _rentalPoint.FirstOrDefaultAsync(r => r.Name == rentalPointName, cancellationToken);
+        }
+
         public void Update(RentalPoint rentalPoint, CancellationToken cancellationToken)
         {
             if (rentalPoint is null)

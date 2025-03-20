@@ -49,6 +49,8 @@ namespace CarRentalService.Domain.Common.Errors
         {
             public static readonly Error NotFound = new Error("Rental point was not found.")
                 .WithMetadata("ErrorCode", "RentalPoint.NotFound");
+            public static readonly Error AlreadyExists = new Error("Rental point already exists.")
+                .WithMetadata("ErrorCode", "RentalPoint.AlreadyExists");
         }
 
         public static class Authentication
