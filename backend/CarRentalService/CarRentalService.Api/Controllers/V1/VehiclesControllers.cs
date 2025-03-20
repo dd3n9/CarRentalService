@@ -1,4 +1,5 @@
 ﻿using CarRentalService.Application.Vehicles.Queries.GetAvailable;
+using CarRentalService.Application.Vehicles.Queries.GetDetails;
 using CarRentalService.Contracts.Common;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -40,6 +41,16 @@ namespace CarRentalService.Api.Controllers.V1
 
             var result = await _mediator.Send(query);
 
+            return OkOrNotFound(result);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("{vehicleId:guid}/details")]
+        public async Task<IActionResult> GetVehicleDetails(Guid vehicleId)
+        {
+            var query = new GetVehicleDetailsQuery(vehicleId);
+            var result = await _mediator.Send(query);
+            
             return OkOrNotFound(result);
         }
     }
