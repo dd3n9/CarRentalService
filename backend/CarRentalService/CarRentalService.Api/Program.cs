@@ -48,6 +48,7 @@ using (var serviceScope = app.Services.CreateScope())
     }
 };
 
+app.UseExceptionHandler(_ => { });
 
 app.UseHttpsRedirection();
 
