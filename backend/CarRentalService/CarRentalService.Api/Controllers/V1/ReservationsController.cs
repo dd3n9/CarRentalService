@@ -11,16 +11,16 @@ namespace CarRentalService.Api.Controllers.V1
 {
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion("1.0")]
-    public class ReservationController : BaseController
+    public class ReservationsController : BaseController
     {
         private readonly ISender _mediator;
 
-        public ReservationController(ISender mediator)
+        public ReservationsController(ISender mediator)
         {
             _mediator = mediator;
         }
 
-        [HttpPost("create")]
+        [HttpPost]
         public async Task<IActionResult> CreateReservation([FromBody] CreateReservationRequest request, CancellationToken cancellationToken)
         {
             var userId = HttpContext.GetUserIdClaimValue();
