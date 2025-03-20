@@ -16,7 +16,7 @@ namespace CarRentalService.Application.RentalPoints.Commands.Delete
 
         public async Task<Result> Handle(DeleteRentalPointCommand request, CancellationToken cancellationToken)
         {
-            var rentalPoint = await _rentalPointRepository.GetByIdAsync(request.rentalPointId, cancellationToken);
+            var rentalPoint = await _rentalPointRepository.GetByIdAsync(request.RentalPointId, cancellationToken);
             if (rentalPoint is null)
                 return Result.Fail(ApplicationErrors.RentalPoint.NotFound);
 

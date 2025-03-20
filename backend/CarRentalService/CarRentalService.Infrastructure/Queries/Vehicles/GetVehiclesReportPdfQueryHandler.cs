@@ -23,12 +23,12 @@ namespace CarRentalService.Infrastructure.Queries.Vehicles
                .Include(v => v.Reservations)
                .Include(v => v.RentalPoint);
 
-            if (!string.IsNullOrWhiteSpace(request.City))
+            if(!string.IsNullOrWhiteSpace(request.City))
             {
                 query = query.Where(v => v.RentalPoint.Address.Contains(request.City));
             }
 
-            if (!string.IsNullOrWhiteSpace(request.VehicleType))
+            if(!string.IsNullOrWhiteSpace(request.VehicleType))
             {
                 query = query.Where(v => v.Type == request.VehicleType);
             }
@@ -38,19 +38,19 @@ namespace CarRentalService.Infrastructure.Queries.Vehicles
                 query = query.Where(v => v.Seats == request.Seats);
             }
 
-            if (request.YearFrom.HasValue)
+            if(request.YearFrom.HasValue)
             {
                 query = query.Where(v => v.Year >= request.YearFrom);
             }
 
-            if (request.YearTo.HasValue)
+            if(request.YearTo.HasValue)
             {
                 query = query.Where(v => v.Year <= request.YearTo);
             }
 
             var vehicles = await query.ToListAsync();
 
-            if (vehicles == null || vehicles.Count == 0)
+            if(vehicles == null || vehicles.Count == 0)
             {
                 return null;
             }

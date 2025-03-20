@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FluentValidation;
 
 namespace CarRentalService.Application.Vehicles.Commands.DeleteVehicle
 {
-    internal class DeleteVehicleCommandValidator
+    public class DeleteVehicleCommandValidator : AbstractValidator<DeleteVehicleCommand>
     {
+        public DeleteVehicleCommandValidator()
+        {
+            RuleFor(x => x.VehicleId)
+                .NotEqual(Guid.Empty).WithMessage("Vehicle ID cannot be empty");
+        }
     }
 }

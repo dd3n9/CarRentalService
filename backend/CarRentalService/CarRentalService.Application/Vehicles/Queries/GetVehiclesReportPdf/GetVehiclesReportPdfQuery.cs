@@ -6,6 +6,6 @@ namespace CarRentalService.Application.Vehicles.Queries.GetVehiclesReportPdf
         int? YearFrom,
         int? YearTo,
         int? Seats,
-        string VehicleType
+        string? VehicleType
         ) : IRequest<byte[]>;
 }
