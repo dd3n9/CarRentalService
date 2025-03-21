@@ -80,5 +80,22 @@ namespace CarRentalService.Api.Controllers
 
             return Ok();
         }
+
+        private bool IsPaginatedList(object value, out object paginatedResult)
+        {
+            paginatedResult = null;
+
+            if (value == null)
+                return false;
+
+            var type = value.GetType();
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(PaginatedList<>))
+            {
+                paginatedResult = value;
+                return true;
+            }
+
+            return false;
+        }
     }
 }
