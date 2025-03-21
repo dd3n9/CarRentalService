@@ -61,12 +61,4 @@ export class CarsPageComponent implements OnInit {
   trackByVehicleId(index: number, vehicle: Vehicle): string | undefined {
     return vehicle.vehicleId;
   }
-
-  getPagesArray(): number[] {
-    if (!this.paginationInfo) {
-      return [];
-    }
-    const pagesCount = this.paginationInfo.totalPages;
-    return Array.from({ length: pagesCount }, (_, index) => index + 1); // Create array [1, 2, 3, ..., totalPages]
-  }
 }

@@ -8,54 +8,17 @@
     <div *ngIf="error" class="text-red-500 mb-4">{{ error }}</div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      <div
+      <app-car-card
         *ngFor="let vehicle of vehicles; trackBy: trackByVehicleId"
-        class="p-4 border rounded"
-      >
-        <h2 class="text-lg font-semibold">
-          {{ vehicle.brand }} {{ vehicle.model }}
-        </h2>
-        <p>Price per day: ${{ vehicle.pricePerDay }}</p>
-        <p>City: {{ vehicle.city }}</p>
-        <p>Year: {{ vehicle.year }}</p>
-        <p>Seats: {{ vehicle.seats }}</p>
-      </div>
+        [vehicle]="vehicle"
+      ></app-car-card>
     </div>
 
-    <div
-      *ngIf="paginationInfo && paginationInfo.totalPages > 1"
-      class="mt-6 flex justify-center"
-    >
-      <button
-        *ngIf="currentPage > 1"
-        (click)="onPageChange(currentPage - 1)"
-        class="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded-l-md"
-      >
-        Previous
-      </button>
-      <button
-        *ngFor="let page of getPagesArray()"
-        (click)="onPageChange(page)"
-        class="px-2 py-1"
-        [ngClass]="{
-          'bg-green-500 text-white': page === currentPage,
-          'hover:bg-gray-200': page !== currentPage
-        }"
-      >
-        {{ page }}
-      </button>
-      <button
-        *ngIf="currentPage < paginationInfo.totalPages"
-        (click)="onPageChange(currentPage + 1)"
-        class="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded-r-md"
-      >
-        Next
-      </button>
-    </div>
-    <div *ngIf="paginationInfo" class="mt-2 text-sm text-gray-600 text-center">
-      Showing page {{ paginationInfo.currentPage }} of
-      {{ paginationInfo.totalPages }}. Total vehicles:
-      {{ paginationInfo.totalCount }}.
-    </div>
+    <app-pagination
+      *ngIf="paginationInfo"
+      [currentPage]="paginationInfo.currentPage"
+      [totalPages]="paginationInfo.totalPages"
+      (pageChange)="onPageChange($event)"
+    ></app-pagination>
   </main>
 </div>
