@@ -4,6 +4,8 @@ import { CarsPageComponent } from './pages/cars-page/cars-page.component';
 
 const routes: Routes = [
   { path: 'cars', component: CarsPageComponent },
+  //{ path: 'reservations', component: UserReservationsComponent, canActivate: [canActivateAuth] },
+  //{ path: 'moderator', component: ModeratorDashboardComponent, canActivate: [canActivateRoles(['MANAGER'])] },
   { path: '', redirectTo: '/cars', pathMatch: 'full' },
 ];
 

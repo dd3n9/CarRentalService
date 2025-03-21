@@ -24,7 +24,7 @@ namespace CarRentalService.Infrastructure.Services.Authentication
 
         public async Task<string> GenerateToken(AuthenticationDto authenticationDto)
         {
-            var userRoles = await _userRoleService.GetUserRolesAsync(new UserId(authenticationDto.UserId));
+            //var userRoles = await _userRoleService.GetUserRolesAsync(new UserId(authenticationDto.UserId));
 
             var authClaims = new List<Claim>
             {
@@ -34,7 +34,7 @@ namespace CarRentalService.Infrastructure.Services.Authentication
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
-            foreach (var userRole in userRoles)
+            foreach (var userRole in authenticationDto.UserRoles)
             {
                 authClaims.Add(new Claim(ClaimTypes.Role, userRole));
             }

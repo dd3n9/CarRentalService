@@ -17,7 +17,7 @@
     (click)="handlePageNumberClick(pageNumber)"
     class="px-2 py-1"
     [ngClass]="{
-      'bg-green-400 text-white': pageNumber === currentPage,
+      'bg-green-900 text-white': pageNumber === currentPage,
       'hover:bg-gray-200': pageNumber !== currentPage && isNumber(pageNumber),
       'cursor-default': !isNumber(pageNumber),
       'hover:none': !isNumber(pageNumber),

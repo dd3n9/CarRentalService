@@ -9,6 +9,7 @@ import { VehicleService } from './core/services/vehicle.service';
 import { CarCardComponent } from './components/car-card/car-card.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { CarFilterComponent } from './components/car-filter/car-filter.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { CarFilterComponent } from './components/car-filter/car-filter.component
     CarCardComponent,
     PaginationComponent,
     CarFilterComponent,
+    NavbarComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [VehicleService],
