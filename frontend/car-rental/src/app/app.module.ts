@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CarsPageComponent } from './pages/cars-page/cars-page.component';
@@ -11,8 +11,14 @@ import { PaginationComponent } from './components/pagination/pagination.componen
 import { CarFilterComponent } from './components/car-filter/car-filter.component';
 
 @NgModule({
-  declarations: [AppComponent, CarsPageComponent, CarCardComponent, PaginationComponent, CarFilterComponent],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
+  declarations: [
+    AppComponent,
+    CarsPageComponent,
+    CarCardComponent,
+    PaginationComponent,
+    CarFilterComponent,
+  ],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [VehicleService],
   bootstrap: [AppComponent],
 })

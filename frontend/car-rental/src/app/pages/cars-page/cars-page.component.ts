@@ -16,6 +16,7 @@ export class CarsPageComponent implements OnInit {
   error: string | null = null;
   currentPage: number = 1;
   pageSize: number = 10;
+  currentFilters: any = {};
 
   constructor(private vehicleService: VehicleService) {}
 
@@ -26,14 +27,14 @@ export class CarsPageComponent implements OnInit {
   loadVehicles(): void {
     this.vehicleService
       .getAvailableVehicles(
-        undefined, // city
-        undefined, // startDate
-        undefined, // endDate
-        undefined, // vehicleType
-        undefined, // yearFrom
-        undefined, // yearTo
-        undefined, // searchTerm
-        undefined, // sortByPrice
+        this.currentFilters.city,
+        this.currentFilters.startDate,
+        this.currentFilters.endDate,
+        this.currentFilters.vehicleType,
+        this.currentFilters.yearFrom,
+        this.currentFilters.yearTo,
+        this.currentFilters.searchTerm,
+        this.currentFilters.sortByPrice,
         this.pageSize,
         this.currentPage
       )
@@ -55,6 +56,12 @@ export class CarsPageComponent implements OnInit {
 
   onPageChange(pageNumber: number): void {
     this.currentPage = pageNumber;
+    this.loadVehicles();
+  }
+
+  onFiltersChange(filters: any): void {
+    this.currentFilters = filters;
+    this.currentPage = 1;
     this.loadVehicles();
   }
 
