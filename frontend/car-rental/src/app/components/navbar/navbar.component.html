@@ -1,0 +1,38 @@
+<nav
+  class="bg-green-900 p-4 text-white fixed top-0 left-0 w-full shadow-md z-50"
+>
+  <div class="container mx-auto flex justify-between items-center">
+    <a routerLink="/" class="font-bold text-xl">Car Rental</a>
+    <div class="space-x-4">
+      <a routerLink="/{{ appRoutes.Cars }}" class="hover:text-gray-200">Cars</a>
+      <ng-container>
+        <a
+          routerLink="/{{ appRoutes.Reservations }}"
+          class="hover:text-gray-200"
+          >My Reservations</a
+        >
+      </ng-container>
+      <ng-container *ngIf="isModerator$ | async">
+        <a
+          routerLink="/{{ appRoutes.ModeratorDashboard }}"
+          class="hover:text-gray-200"
+          >Management</a
+        >
+      </ng-container>
+      <ng-container *ngIf="!authService.isAuth">
+        <a routerLink="/{{ appRoutes.Login }}" class="hover:text-gray-200"
+          >Login</a
+        >
+        <a routerLink="/{{ appRoutes.Register }}" class="hover:text-gray-200"
+          >Register</a
+        >
+      </ng-container>
+      <ng-container *ngIf="authService.isAuth">
+        <button (click)="logout()" class="hover:text-gray-200">Logout</button>
+      </ng-container>
+    </div>
+  </div>
+</nav>
+
+<!-- Додаємо відступ, щоб контент не ховався під навбаром -->
+<div class="mt-16"></div>

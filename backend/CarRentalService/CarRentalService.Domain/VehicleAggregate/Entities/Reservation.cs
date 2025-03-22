@@ -1,4 +1,5 @@
 ﻿using CarRentalService.Domain.Common.Errors;
+using CarRentalService.Domain.Common.Exceptions.Vehicle;
 using CarRentalService.Domain.Common.Models;
 using CarRentalService.Domain.RentalPointAggregate.ValueObjects;
 using CarRentalService.Domain.UserAggregate.ValueObjects;
@@ -50,6 +51,9 @@ namespace CarRentalService.Domain.VehicleAggregate.Entities
             DateTime endDate
             )
         {
+            if(startDate < DateTime.UtcNow || endDate < DateTime.UtcNow)
+                throw new InvalidReservationDateException();
+
             var reservation = new Reservation(ReservationId.CreateUnique(),
                 userId, 
                 vehicleId, 

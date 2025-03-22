@@ -1,0 +1,44 @@
+<div *ngIf="totalPages" class="mt-6 flex justify-center">
+  <button
+    (click)="onPreviousPage()"
+    class="px-3 py-1 rounded-l-md"
+    [ngClass]="{
+      'bg-gray-200 hover:bg-gray-300': currentPage > 1 && totalPages > 1,
+      'bg-gray-100 text-gray-500 cursor-default':
+        currentPage <= 1 || totalPages <= 1
+    }"
+    [disabled]="currentPage <= 1 || totalPages <= 1"
+  >
+    Previous
+  </button>
+
+  <button
+    *ngFor="let pageNumber of pageNumbers; let i = index; trackBy: trackByIndex"
+    (click)="handlePageNumberClick(pageNumber)"
+    class="px-2 py-1"
+    [ngClass]="{
+      'bg-green-900 text-white': pageNumber === currentPage,
+      'hover:bg-gray-200': pageNumber !== currentPage && isNumber(pageNumber),
+      'cursor-default': !isNumber(pageNumber),
+      'hover:none': !isNumber(pageNumber),
+      'text-gray-500': !isNumber(pageNumber)
+    }"
+    [disabled]="!isNumber(pageNumber)"
+  >
+    {{ pageNumber }}
+  </button>
+
+  <button
+    (click)="onNextPage()"
+    class="px-3 py-1 rounded-r-md"
+    [ngClass]="{
+      'bg-gray-200 hover:bg-gray-300':
+        currentPage < totalPages && totalPages > 1,
+      'bg-gray-100 text-gray-500 cursor-default':
+        currentPage >= totalPages || totalPages <= 1
+    }"
+    [disabled]="currentPage >= totalPages || totalPages <= 1"
+  >
+    Next
+  </button>
+</div>

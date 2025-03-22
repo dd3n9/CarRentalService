@@ -19,14 +19,18 @@ namespace CarRentalService.Infrastructure.Services.Authentication
     {
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
         private readonly IUserRepository _userRepository;
+        private readonly IUserRoleService _userRoleService;
         private readonly JwtConfig _jwtConfig;
 
-        public AuthenticationService(IJwtTokenGenerator jwtTokenGenerator, IUserRepository userRepository, IOptions<JwtConfig> jwtConfig)
+        public AuthenticationService(IJwtTokenGenerator jwtTokenGenerator, 
+            IUserRepository userRepository,
+            IOptions<JwtConfig> jwtConfig, 
+            IUserRoleService userRoleService)
         {
             _userRepository = userRepository;
             _jwtTokenGenerator = jwtTokenGenerator;
             _jwtConfig = jwtConfig.Value;
-
+            _userRoleService = userRoleService;
         }
 
         public async Task<Result<AuthTokensDto>> GenerateJwtTokenAsync(AuthenticationDto authenticationDto, CancellationToken cancellationToken)
@@ -93,7 +97,8 @@ namespace CarRentalService.Infrastructure.Services.Authentication
 
         private async Task<AuthTokensDto> GenerateTokensForUserAsync(User user)
         {
-            var authenticationDto = new AuthenticationDto(user.Id, user.FirstName, user.LastName);
+            var userRoles = await _userRoleService.GetUserRolesAsync(user.Id);
+            var authenticationDto = new AuthenticationDto(user.Id, user.FirstName, user.LastName, userRoles);
             var jwtTokenValue = await _jwtTokenGenerator.GenerateToken(authenticationDto);
             var refreshToken = RefreshToken.Create(ExtractJtiFromToken(jwtTokenValue),
                 DateTime.UtcNow,

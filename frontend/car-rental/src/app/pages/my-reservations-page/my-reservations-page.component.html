@@ -1,0 +1,120 @@
+<div class="container mx-auto p-8">
+  <h2 class="text-2xl font-bold mb-4 text-gray-800">My Reservations</h2>
+
+  <div *ngIf="loading" class="text-center">Loading...</div>
+
+  <div
+    *ngIf="!loading && vehicles.length === 0"
+    class="text-center text-gray-600"
+  >
+    No reservations found.
+  </div>
+
+  <div *ngIf="!loading && vehicles.length > 0" class="overflow-x-auto">
+    <table
+      class="min-w-full leading-normal shadow-md rounded-lg overflow-hidden"
+    >
+      <thead>
+        <tr>
+          <th
+            class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
+          >
+            Reservation ID
+          </th>
+          <th
+            class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
+          >
+            Vehicle
+          </th>
+          <th
+            class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
+          >
+            Start Date
+          </th>
+          <th
+            class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
+          >
+            End Date
+          </th>
+          <th
+            class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
+          >
+            Status
+          </th>
+          <th
+            class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
+          >
+            Created At
+          </th>
+          <th
+            class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
+          >
+            Actions
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let reservation of vehicles; trackBy: trackByVehicleId"
+          class="hover:bg-gray-50"
+        >
+          <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+            <p class="text-gray-900 whitespace-no-wrap">
+              {{ reservation.reservationId }}
+            </p>
+          </td>
+          <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+            <p class="text-gray-900 whitespace-no-wrap">
+              {{ reservation.vehicleBrand }} {{ reservation.vehicleModel }}
+            </p>
+          </td>
+          <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+            <p class="text-gray-900 whitespace-no-wrap">
+              {{ reservation.startDate | date }}
+            </p>
+          </td>
+          <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+            <p class="text-gray-900 whitespace-no-wrap">
+              {{ reservation.endDate | date }}
+            </p>
+          </td>
+          <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+            <p class="text-gray-900 whitespace-no-wrap">
+              {{ reservation.status }}
+            </p>
+          </td>
+          <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+            <p class="text-gray-900 whitespace-no-wrap">
+              {{ reservation.createdAt | date }}
+            </p>
+          </td>
+          <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+            <div class="flex space-x-2">
+              <!-- Кнопка Delete -->
+              <button
+                (click)="deleteReservation(reservation.reservationId)"
+                class="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-3 rounded-xl focus:outline-none focus:shadow-outline"
+              >
+                Delete
+              </button>
+              <button
+                *ngIf="reservation.status === 'Active'"
+                (click)="returnVehicle(reservation.reservationId)"
+                class="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-1 px-3 rounded-xl focus:outline-none focus:shadow-outline"
+              >
+                Return Vehicle
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <app-pagination
+      *ngIf="paginationInfo"
+      [currentPage]="paginationInfo.currentPage"
+      [totalPages]="paginationInfo.totalPages"
+      (pageChange)="onPageChange($event)"
+    ></app-pagination>
+  </div>
+</div>

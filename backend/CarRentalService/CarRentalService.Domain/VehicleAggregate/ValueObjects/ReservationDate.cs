@@ -8,7 +8,7 @@ namespace CarRentalService.Domain.VehicleAggregate.ValueObjects
 
         public ReservationDate(DateTime value)
         {
-            if (value < DateTime.UtcNow.Date)
+            if (value == DateTime.MinValue)
             {
                 throw new InvalidReservationDateException();
             }

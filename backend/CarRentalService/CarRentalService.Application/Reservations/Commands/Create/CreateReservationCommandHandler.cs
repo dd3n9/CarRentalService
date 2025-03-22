@@ -30,15 +30,15 @@ namespace CarRentalService.Application.Reservations.Commands.Create
             if (vehicle is null)
                 return Result.Fail(ApplicationErrors.Vehicle.NotFound);
 
-            var pickupPoint = await _rentalPointRepository.GetByIdAsync(request.PickupPointId, cancellationToken);
-            if (pickupPoint is null)
-                return Result.Fail(ApplicationErrors.RentalPoint.NotFound);
+            //var pickupPoint = await _rentalPointRepository.GetByIdAsync(request.PickupPointId, cancellationToken);
+            //if (pickupPoint is null)
+            //    return Result.Fail(ApplicationErrors.RentalPoint.NotFound);
 
             var returnPoint = await _rentalPointRepository.GetByIdAsync(request.ReturnPointId, cancellationToken);
             if (returnPoint is null)
                 return Result.Fail(ApplicationErrors.RentalPoint.NotFound);
 
-            var reservationResult = vehicle.Reserve(request.UserId, pickupPoint.Id, returnPoint.Id, request.StartDate, request.EndDate);
+            var reservationResult = vehicle.Reserve(request.UserId, vehicle.RentalPointId, returnPoint.Id, request.StartDate, request.EndDate);
 
             await _vehicleRepository.SaveChangesAsync(cancellationToken);
 

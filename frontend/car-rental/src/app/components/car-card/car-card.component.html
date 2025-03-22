@@ -1,0 +1,38 @@
+<div class="bg-white rounded-lg shadow-md overflow-hidden">
+  <div class="px-4 py-3">
+    <h3 class="text-lg font-semibold text-gray-800">
+      {{ vehicle.brand }} {{ vehicle.model }}
+    </h3>
+  </div>
+  <div class="border-t border-gray-200 px-4 py-2">
+    <p class="text-gray-700">
+      <span class="font-medium">Price:</span> ${{ vehicle.pricePerDay }} / day
+    </p>
+    <p class="text-gray-700">
+      <span class="font-medium">City:</span> {{ vehicle.city }}
+    </p>
+    <p class="text-gray-700">
+      <span class="font-medium">Year:</span> {{ vehicle.year }}
+    </p>
+    <p class="text-gray-700">
+      <span class="font-medium">Seats:</span> {{ vehicle.seats }}
+    </p>
+  </div>
+  <div
+    class="px-4 py-2 bg-gray-100 border-t border-gray-200 flex justify-end space-x-2"
+  >
+    <button
+      (click)="onViewDetails()"
+      class="bg-green-900 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline"
+    >
+      View Details
+    </button>
+    <button
+      *ngIf="isAuthenticated"
+      (click)="onReserve()"
+      class="bg-yellow-950 hover:bg-amber-900 text-white font-bold py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline"
+    >
+      Reserve
+    </button>
+  </div>
+</div>

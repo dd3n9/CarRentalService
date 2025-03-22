@@ -1,0 +1,123 @@
+<div class="bg-white p-4 rounded shadow-md mb-6">
+  <h2 class="text-lg font-semibold mb-4 text-gray-800">Filter Vehicles</h2>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div>
+      <label for="city" class="block text-sm font-medium text-gray-700">
+        City:
+      </label>
+      <input
+        type="text"
+        id="city"
+        [(ngModel)]="city"
+        (input)="onFiltersUpdated()"
+        class="mt-1 p-2 w-full border rounded-md shadow-sm focus:ring-green-400 focus:border-green-400 sm:text-sm"
+      />
+    </div>
+
+    <div>
+      <label for="vehicleType" class="block text-sm font-medium text-gray-700">
+        Vehicle Type:
+      </label>
+      <select
+        id="vehicleType"
+        [(ngModel)]="vehicleType"
+        (change)="onFiltersUpdated()"
+        class="mt-1 p-2 w-full border rounded-md shadow-sm focus:ring-green-400 focus:border-green-400 sm:text-sm"
+      >
+        <option value="" selected>All Types</option>
+        <option *ngFor="let type of vehicleTypes" [value]="type">
+          {{ type }}
+        </option>
+      </select>
+    </div>
+
+    <div>
+      <label for="searchTerm" class="block text-sm font-medium text-gray-700">
+        Search:
+      </label>
+      <input
+        type="text"
+        id="searchTerm"
+        [(ngModel)]="searchTerm"
+        (input)="onFiltersUpdated()"
+        class="mt-1 p-2 w-full border rounded-md shadow-sm focus:ring-green-400 focus:border-green-400 sm:text-sm"
+      />
+    </div>
+
+    <div>
+      <label for="yearFrom" class="block text-sm font-medium text-gray-700">
+        Year From:
+      </label>
+      <input
+        type="number"
+        id="yearFrom"
+        [(ngModel)]="yearFrom"
+        (input)="onFiltersUpdated()"
+        class="mt-1 p-2 w-full border rounded-md shadow-sm focus:ring-green-400 focus:border-green-400 sm:text-sm"
+      />
+    </div>
+
+    <div>
+      <label for="yearTo" class="block text-sm font-medium text-gray-700">
+        Year To:
+      </label>
+      <input
+        type="number"
+        id="yearTo"
+        [(ngModel)]="yearTo"
+        (input)="onFiltersUpdated()"
+        class="mt-1 p-2 w-full border rounded-md shadow-sm focus:ring-green-400 focus:border-green-400 sm:text-sm"
+      />
+    </div>
+
+    <div>
+      <label for="sortByPrice" class="block text-sm font-medium text-gray-700">
+        Sort by Price:
+      </label>
+      <select
+        id="sortByPrice"
+        [(ngModel)]="sortByPrice"
+        (change)="onFiltersUpdated()"
+        class="mt-1 p-2 w-full border rounded-md shadow-sm focus:ring-green-400 focus:border-green-400 sm:text-sm"
+      >
+        <option value="">No Sorting</option>
+        <option value="asc">Price: Low to High</option>
+        <option value="desc">Price: High to Low</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="startDate" class="block text-sm font-medium text-gray-700">
+        Start Date:
+      </label>
+      <input
+        type="date"
+        id="startDate"
+        [(ngModel)]="startDate"
+        (change)="onFiltersUpdated()"
+        class="mt-1 p-2 w-full border rounded-md shadow-sm focus:ring-green-400 focus:border-green-400 sm:text-sm"
+      />
+    </div>
+
+    <div>
+      <label for="endDate" class="block text-sm font-medium text-gray-700">
+        End Date:
+      </label>
+      <input
+        type="date"
+        id="endDate"
+        [(ngModel)]="endDate"
+        (change)="onFiltersUpdated()"
+        class="mt-1 p-2 w-full border rounded-md shadow-sm focus:ring-green-400 focus:border-green-400 sm:text-sm"
+      />
+    </div>
+  </div>
+  <div class="mt-4 flex justify-end">
+    <button
+      (click)="onResetFilters()"
+      class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline"
+    >
+      Reset Filters
+    </button>
+  </div>
+</div>

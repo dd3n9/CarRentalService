@@ -1,0 +1,43 @@
+<div class="bg-white min-h-screen">
+  <header class="bg-green-900 py-4 text-white rounded-xl">
+    <div class="container mx-auto px-4">
+      <h1 class="text-2xl font-bold">Available Cars</h1>
+    </div>
+  </header>
+  <main class="container mx-auto px-4 py-8">
+    <app-car-filter (filtersChange)="onFiltersChange($event)"></app-car-filter>
+
+    <div *ngIf="error" class="text-red-500 mb-4">{{ error }}</div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <app-car-card
+        *ngFor="let vehicle of vehicles; trackBy: trackByVehicleId"
+        [vehicle]="vehicle"
+        (viewDetails)="onViewDetails($event)"
+        (reserve)="onReserve($event)"
+      ></app-car-card>
+    </div>
+
+    <app-pagination
+      *ngIf="paginationInfo"
+      [currentPage]="paginationInfo.currentPage"
+      [totalPages]="paginationInfo.totalPages"
+      (pageChange)="onPageChange($event)"
+    ></app-pagination>
+
+    <app-vehicle-details-modal
+      [isVisible]="showDetailsModal"
+      [vehicleDetails]="vehicleDetails"
+      [error]="detailsModalError"
+      (close)="closeDetailsModal()"
+    ></app-vehicle-details-modal>
+
+    <app-reserve-vehicle-modal
+      [isVisible]="showReserveModal"
+      [vehicleId]="selectedVehicleId"
+      [error]="reserveModalError"
+      (close)="closeReserveModal()"
+      (submitReservation)="submitReservation($event)"
+    ></app-reserve-vehicle-modal>
+  </main>
+</div>

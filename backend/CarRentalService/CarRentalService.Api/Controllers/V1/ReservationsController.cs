@@ -28,7 +28,6 @@ namespace CarRentalService.Api.Controllers.V1
             var command = new CreateReservationCommand(
                 userId,
                 request.VehicleId,
-                request.PickupPointId,
                 request.ReturnPointId,
                 request.StartDate,
                 request.EndDate);

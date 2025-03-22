@@ -37,7 +37,9 @@ namespace CarRentalService.Application.Authentication.Queries.Login
             if (!isPasswordCorrect.Succeeded)
                 return Result.Fail(ApplicationErrors.Authentication.IncorrectPassword);
 
-            var authDto = new AuthenticationDto(user.Id, user.FirstName, user.LastName);
+            var roles = await _userManager.GetRolesAsync(user);
+
+            var authDto = new AuthenticationDto(user.Id, user.FirstName, user.LastName, roles);
 
             var token = await _authenticationService.GenerateJwtTokenAsync(authDto, cancellationToken);
             if (token.IsFailed)
