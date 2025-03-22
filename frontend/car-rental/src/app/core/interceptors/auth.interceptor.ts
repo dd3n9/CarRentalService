@@ -15,6 +15,7 @@ export const authTokenInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   const token = authService.token;
   const errorHandlerService = inject(GlobalErrorHandlerService);
+  console.log(token);
 
   if (!token) return next(req);
 

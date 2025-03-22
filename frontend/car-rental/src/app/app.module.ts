@@ -4,7 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CarsPageComponent } from './pages/cars-page/cars-page.component';
-import { HttpClientModule } from '@angular/common/http';
+import {
+  HTTP_INTERCEPTORS,
+  HttpClientModule,
+  provideHttpClient,
+  withInterceptors,
+} from '@angular/common/http';
 import { VehicleService } from './core/services/vehicle.service';
 import { CarCardComponent } from './components/car-card/car-card.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
@@ -14,6 +19,8 @@ import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { RegisterPageComponent } from './pages/register-page/register-page.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MyReservationsPageComponent } from './pages/my-reservations-page/my-reservations-page.component';
+import { authTokenInterceptor } from './core/interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -25,6 +32,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     NavbarComponent,
     LoginPageComponent,
     RegisterPageComponent,
+    MyReservationsPageComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -34,7 +42,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FormsModule,
     ToastrModule.forRoot(),
   ],
-  providers: [VehicleService],
+  providers: [
+    VehicleService,
+    provideHttpClient(withInterceptors([authTokenInterceptor])),
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

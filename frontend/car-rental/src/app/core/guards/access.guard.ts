@@ -19,6 +19,10 @@ export const canActivateRoles = (requiredRoles: UserRoles[]): CanActivateFn => {
       });
     }
 
+    if (requiredRoles.length === 0) {
+      return true;
+    }
+
     const userRoles = authService.currentRoles;
 
     const hasRequiredRole = requiredRoles.some((role) =>
