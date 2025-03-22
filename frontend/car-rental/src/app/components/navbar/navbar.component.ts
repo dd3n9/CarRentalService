@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
 import { map, Observable } from 'rxjs';
-import { AppRoutes, UserRoles } from '../../constants';
+import { AppRoutes, UserRoles } from '../../core/constants/constants';
 
 @Component({
   selector: 'app-navbar',

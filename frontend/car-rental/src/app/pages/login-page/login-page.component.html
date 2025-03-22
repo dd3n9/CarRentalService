@@ -1,0 +1,54 @@
+<div class="container mx-auto p-8 flex justify-center items-center h-screen">
+  <div
+    class="bg-gray-100 shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-sm"
+  >
+    <h2 class="text-center text-2xl font-bold mb-6 text-gray-800">Sign in</h2>
+
+    <form (ngSubmit)="loginUser()" class="space-y-4">
+      <div>
+        <label for="email" class="block text-gray-700 text-sm font-bold mb-2"
+          >Email:</label
+        >
+        <input
+          type="text"
+          id="email"
+          [(ngModel)]="loginData.email"
+          name="email"
+          required
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        />
+      </div>
+
+      <div>
+        <label for="password" class="block text-gray-700 text-sm font-bold mb-2"
+          >Password:</label
+        >
+        <input
+          type="password"
+          id="password"
+          [(ngModel)]="loginData.password"
+          name="password"
+          required
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        />
+      </div>
+
+      <div class="flex items-center justify-between">
+        <button
+          type="submit"
+          [disabled]="loading"
+          class="bg-green-900 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline disabled:opacity-50"
+        >
+          <span *ngIf="!loading">Login</span>
+          <span *ngIf="loading">Loading...</span>
+        </button>
+        <a
+          class="inline-block align-baseline font-bold text-sm text-green-900 hover:text-green-700"
+          routerLink="/{{ appRoutes.Register }}"
+        >
+          Register
+        </a>
+      </div>
+    </form>
+  </div>
+</div>

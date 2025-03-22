@@ -10,6 +10,10 @@ import { CarCardComponent } from './components/car-card/car-card.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { CarFilterComponent } from './components/car-filter/car-filter.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { LoginPageComponent } from './pages/login-page/login-page.component';
+import { RegisterPageComponent } from './pages/register-page/register-page.component';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -19,8 +23,17 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     PaginationComponent,
     CarFilterComponent,
     NavbarComponent,
+    LoginPageComponent,
+    RegisterPageComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
+  imports: [
+    BrowserAnimationsModule,
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    ToastrModule.forRoot(),
+  ],
   providers: [VehicleService],
   bootstrap: [AppComponent],
 })

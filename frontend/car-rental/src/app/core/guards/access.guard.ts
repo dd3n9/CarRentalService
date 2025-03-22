@@ -6,7 +6,7 @@ import {
   Router,
   RouterStateSnapshot,
 } from '@angular/router';
-import { UserRoles } from '../../constants';
+import { UserRoles } from '../constants/constants';
 
 export const canActivateRoles = (requiredRoles: UserRoles[]): CanActivateFn => {
   return (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {

@@ -1,11 +1,11 @@
 export interface AuthenticationResult {
-  AuthenticationDto: AuthenticationDto;
-  Token: string;
+  authenticationDto: AuthenticationDto;
+  token: string;
 }
 
 export interface AuthenticationDto {
-  UserId: string;
-  FirstName: string;
-  LastName: string;
-  UserRoles: string[];
+  userId: string;
+  firstName: string;
+  lastName: string;
+  userRoles: string[];
 }

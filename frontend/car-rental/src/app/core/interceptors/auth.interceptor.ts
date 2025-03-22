@@ -1,17 +1,20 @@
 import {
+  HttpErrorResponse,
   HttpHandlerFn,
   HttpInterceptorFn,
   HttpRequest,
 } from '@angular/common/http';
 import { AuthService } from '../services/auth.service';
 import { inject } from '@angular/core';
-import { catchError, flatMap, switchMap, throwError } from 'rxjs';
+import { catchError, switchMap, throwError } from 'rxjs';
+import { GlobalErrorHandlerService } from '../services/global-error-handler.service';
 
 let isRefreshing = false;
 
 export const authTokenInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   const token = authService.token;
+  const errorHandlerService = inject(GlobalErrorHandlerService);
 
   if (!token) return next(req);
 
@@ -21,11 +24,16 @@ export const authTokenInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(addToken(req, token)).pipe(
     catchError((error) => {
-      if (error.status === 403) {
-        return refreshAndProceed(authService, req, next);
+      if (error instanceof HttpErrorResponse) {
+        if (error.status === 403) {
+          return refreshAndProceed(authService, req, next);
+        } else {
+          errorHandlerService.showError(`${error.message}`);
+        }
+      } else {
+        errorHandlerService.showError(`${error.message}`);
       }
-
-      return throwError(error);
+      return throwError(() => error);
     })
   );
 };
