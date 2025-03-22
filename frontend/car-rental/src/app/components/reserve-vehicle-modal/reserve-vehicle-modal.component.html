@@ -1,0 +1,110 @@
+<div
+  *ngIf="isVisible"
+  class="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50"
+>
+  <div class="bg-gray-100 rounded-lg shadow-lg p-6 w-full max-w-md">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-lg font-semibold text-gray-800">Reserve Vehicle</h3>
+      <button
+        (click)="onClose()"
+        class="text-gray-500 hover:text-gray-700 focus:outline-none"
+      >
+        <svg
+          class="h-6 w-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          ></path>
+        </svg>
+      </button>
+    </div>
+
+    <div *ngIf="error" class="text-red-500 mb-4">{{ error }}</div>
+
+    <form [formGroup]="reserveForm" (ngSubmit)="onSubmit()">
+      <div class="space-y-4">
+        <div class="relative">
+          <label
+            for="returnPoint"
+            class="block text-sm font-medium text-gray-700"
+          >
+            Return Point:
+          </label>
+          <input
+            type="text"
+            id="returnPoint"
+            formControlName="returnPoint"
+            (blur)="onBlurReturnPoint()"
+            class="mt-1 p-2 w-full border rounded-md shadow-sm focus:ring-green-400 focus:border-green-400 sm:text-sm"
+            placeholder="Type to search for a return point..."
+          />
+          <ul
+            *ngIf="returnPointSuggestions.length > 0"
+            class="absolute z-10 w-full bg-white border border-gray-200 rounded-md shadow-md mt-1 max-h-40 overflow-y-auto"
+          >
+            <li
+              *ngFor="let suggestion of returnPointSuggestions"
+              (click)="selectReturnPoint(suggestion)"
+              class="p-2 hover:bg-gray-100 cursor-pointer"
+            >
+              {{ suggestion.rentalPointName }} ({{
+                suggestion.rentalPointAddress
+              }})
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <label
+            for="startDate"
+            class="block text-sm font-medium text-gray-700"
+          >
+            Start Date:
+          </label>
+          <input
+            type="date"
+            id="startDate"
+            formControlName="startDate"
+            class="mt-1 p-2 w-full border rounded-md shadow-sm focus:ring-green-400 focus:border-green-400 sm:text-sm"
+          />
+        </div>
+
+        <div>
+          <label for="endDate" class="block text-sm font-medium text-gray-700">
+            End Date:
+          </label>
+          <input
+            type="date"
+            id="endDate"
+            formControlName="endDate"
+            class="mt-1 p-2 w-full border rounded-md shadow-sm focus:ring-green-400 focus:border-green-400 sm:text-sm"
+          />
+        </div>
+      </div>
+
+      <div class="mt-6 flex justify-end space-x-2">
+        <button
+          type="button"
+          (click)="onClose()"
+          class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          [disabled]="reserveForm.invalid || !selectedReturnPoint"
+          class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline disabled:bg-gray-400"
+        >
+          Reserve
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

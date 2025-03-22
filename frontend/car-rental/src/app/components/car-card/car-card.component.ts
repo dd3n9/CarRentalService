@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Vehicle, VehicleDetailsResponse } from '../../core/models/car.model';
 import { VehicleService } from '../../core/services/vehicle.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-car-card',
@@ -18,7 +19,7 @@ export class CarCardComponent {
   vehicleDetails: VehicleDetailsResponse | null = null;
   error: string | null = null;
 
-  constructor(private vehicleService: VehicleService) {}
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {}
 
@@ -29,9 +30,7 @@ export class CarCardComponent {
     this.reserve.emit(this.vehicle.vehicleId);
   }
 
-  closeModal(): void {
-    this.showModal = false;
-    this.vehicleDetails = null;
-    this.error = null;
+  get isAuthenticated(): boolean {
+    return this.authService.isAuth;
   }
 }

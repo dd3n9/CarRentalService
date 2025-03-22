@@ -166,13 +166,8 @@ export class ManagementPageComponent implements OnInit {
 
     this.vehicleService.deleteVehicle(this.vehicleIdToDelete).subscribe({
       next: () => {
-        console.log('Vehicle deleted');
         alert('Vehicle deleted successfully');
         this.vehicleIdToDelete = '';
-      },
-      error: (err) => {
-        console.error('Error deleting vehicle:', err);
-        alert('Failed to delete vehicle');
       },
     });
   }
@@ -186,10 +181,6 @@ export class ManagementPageComponent implements OnInit {
         console.log('Rental point created:', response);
         alert('Rental point created successfully');
         this.createRentalPointForm.reset();
-      },
-      error: (err) => {
-        console.error('Error creating rental point:', err);
-        alert('Failed to create rental point');
       },
     });
   }
@@ -209,10 +200,6 @@ export class ManagementPageComponent implements OnInit {
           this.rentalPointIdToDelete = '';
           this.selectedRentalPointForDelete = null;
           this.rentalPointSuggestionsForDelete = [];
-        },
-        error: (err) => {
-          console.error('Error deleting rental point:', err);
-          alert('Failed to delete rental point');
         },
       });
   }

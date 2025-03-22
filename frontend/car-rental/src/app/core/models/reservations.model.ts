@@ -10,7 +10,6 @@ export interface Reservation {
 
 export interface CreateReservationRequest {
   vehicleId: string;
-  pickupPointId: string;
   returnPointId: string;
   startDate: string;
   endDate: string;

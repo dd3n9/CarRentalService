@@ -23,7 +23,6 @@ namespace CarRentalService.Api.Controllers.V1
         private readonly CookiesConfig _cookiesConfig;
         private readonly JwtConfig _jwtConfig;
 
-
         public AuthenticationController(ISender mediator,
             IMapper mapper,
             IOptions<CookiesConfig> cookiesConfig,

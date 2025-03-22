@@ -9,7 +9,7 @@ export class GlobalErrorHandlerService {
   private toastr = inject(ToastrService);
 
   showError(error: any) {
-    console.log(error);
+    console.log(error.type);
     if (error instanceof HttpErrorResponse) {
       const httpError = error as HttpErrorResponse;
 

@@ -25,14 +25,15 @@ export const authTokenInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(addToken(req, token)).pipe(
     catchError((error) => {
+      console.log(error);
       if (error instanceof HttpErrorResponse) {
-        if (error.status === 403) {
+        if (error.status === 401) {
           return refreshAndProceed(authService, req, next);
         } else {
-          errorHandlerService.showError(`${error.message}`);
+          errorHandlerService.showError(error);
         }
       } else {
-        errorHandlerService.showError(`${error.message}`);
+        errorHandlerService.showError(error);
       }
       return throwError(() => error);
     })

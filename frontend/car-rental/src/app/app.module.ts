@@ -22,6 +22,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MyReservationsPageComponent } from './pages/my-reservations-page/my-reservations-page.component';
 import { authTokenInterceptor } from './core/interceptors/auth.interceptor';
 import { ManagementPageComponent } from './pages/management-page/management-page.component';
+import { VehicleDetailsModalComponent } from './components/vehicle-details-modal/vehicle-details-modal.component';
+import { ReserveVehicleModalComponent } from './components/reserve-vehicle-modal/reserve-vehicle-modal.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +37,8 @@ import { ManagementPageComponent } from './pages/management-page/management-page
     RegisterPageComponent,
     MyReservationsPageComponent,
     ManagementPageComponent,
+    VehicleDetailsModalComponent,
+    ReserveVehicleModalComponent,
   ],
   imports: [
     BrowserAnimationsModule,

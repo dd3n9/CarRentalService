@@ -28,29 +28,16 @@ export class CarsPageComponent implements OnInit {
   detailsModalError: string | null = null;
 
   showReserveModal: boolean = false;
-  reserveForm: FormGroup;
   selectedVehicleId: string | null = null;
-  rentalPoints: RentalPointSuggestion[] = [];
   reserveModalError: string | null = null;
 
   constructor(
     private vehicleService: VehicleService,
-    private rentalPointsService: RentalpointsService,
-    private reservationService: ReservationsService,
-    private fb: FormBuilder
-  ) {
-    // Ініціалізація форми для резервації
-    this.reserveForm = this.fb.group({
-      pickupPointId: ['', Validators.required],
-      returnPointId: ['', Validators.required],
-      startDate: ['', Validators.required],
-      endDate: ['', Validators.required],
-    });
-  }
+    private reservationService: ReservationsService
+  ) {}
 
   ngOnInit(): void {
     this.loadVehicles();
-    this.loadRentalPoints();
   }
 
   loadVehicles(): void {
@@ -81,18 +68,6 @@ export class CarsPageComponent implements OnInit {
           this.error = 'Failed to load vehicles. Please try again later.';
         },
       });
-  }
-
-  loadRentalPoints(): void {
-    this.rentalPointsService.getRentalPointSuggestions('').subscribe({
-      next: (points: RentalPointSuggestion[]) => {
-        this.rentalPoints = points;
-      },
-      error: (errorResponse: HttpErrorResponse) => {
-        console.error('Error fetching rental points:', errorResponse);
-        this.rentalPoints = [];
-      },
-    });
   }
 
   onPageChange(pageNumber: number): void {
@@ -133,40 +108,24 @@ export class CarsPageComponent implements OnInit {
     this.detailsModalError = null;
   }
 
-  // Відкриття модалки для резервації
   onReserve(vehicleId: string): void {
     this.selectedVehicleId = vehicleId;
     this.showReserveModal = true;
-    this.reserveForm.reset(); // Очищаємо форму при відкритті
     this.reserveModalError = null;
   }
 
   closeReserveModal(): void {
     this.showReserveModal = false;
     this.selectedVehicleId = null;
-    this.reserveForm.reset();
     this.reserveModalError = null;
   }
 
-  // Відправка запиту на резервацію
-  submitReservation(): void {
-    if (this.reserveForm.invalid || !this.selectedVehicleId) {
-      return;
-    }
-
-    const request: CreateReservationRequest = {
-      vehicleId: this.selectedVehicleId,
-      pickupPointId: this.reserveForm.get('pickupPointId')!.value,
-      returnPointId: this.reserveForm.get('returnPointId')!.value,
-      startDate: this.reserveForm.get('startDate')!.value,
-      endDate: this.reserveForm.get('endDate')!.value,
-    };
-
+  submitReservation(request: CreateReservationRequest): void {
     this.reservationService.createReservation(request).subscribe({
       next: (response) => {
         alert('Reservation created successfully!');
         this.closeReserveModal();
-        this.loadVehicles(); // Оновлюємо список автомобілів
+        this.loadVehicles();
       },
       error: (errorResponse: HttpErrorResponse) => {
         console.error('Error creating reservation:', errorResponse);

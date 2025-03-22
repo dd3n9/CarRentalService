@@ -94,4 +94,8 @@ export class VehicleService {
   deleteVehicle(vehicleId: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${vehicleId}`);
   }
+
+  returnVehicle(reservationId: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${reservationId}/return`, {});
+  }
 }

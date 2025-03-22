@@ -12,8 +12,6 @@ namespace CarRentalService.Application.Reservations.Commands.Create
             RuleFor(x => x.VehicleId)
                 .NotEqual(Guid.Empty).WithMessage("Vehicle ID cannot be empty");
 
-            RuleFor(x => x.PickupPointId)
-                .NotEqual(Guid.Empty).WithMessage("Pickup Point ID cannot be empty");
 
             RuleFor(x => x.ReturnPointId)
                 .NotEqual(Guid.Empty).WithMessage("Return Point ID cannot be empty");
