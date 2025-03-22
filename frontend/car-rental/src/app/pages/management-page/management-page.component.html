@@ -1,0 +1,363 @@
+<div class="bg-white min-h-screen">
+  <header class="bg-green-900 py-4 text-white rounded-xl">
+    <div class="container mx-auto px-4">
+      <h1 class="text-2xl font-bold">Management Dashboard</h1>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 py-8">
+    <!-- Секція генерації PDF-звіту -->
+    <section class="bg-white p-4 rounded-lg shadow-md mb-6">
+      <h2 class="text-lg font-semibold mb-4 text-gray-800">
+        Generate Vehicles Report (PDF)
+      </h2>
+      <form
+        [formGroup]="reportForm"
+        (ngSubmit)="generateReport()"
+        class="grid grid-cols-1 md:grid-cols-3 gap-4"
+      >
+        <div>
+          <label for="city" class="block text-sm font-medium text-gray-700"
+            >City:</label
+          >
+          <input
+            type="text"
+            id="city"
+            formControlName="city"
+            class="mt-1 p-2 w-full border rounded-md shadow-sm focus:ring-green-400 focus:border-green-400 sm:text-sm"
+          />
+        </div>
+        <div>
+          <label for="yearFrom" class="block text-sm font-medium text-gray-700"
+            >Year From:</label
+          >
+          <input
+            type="number"
+            id="yearFrom"
+            formControlName="yearFrom"
+            class="mt-1 p-2 w-full border rounded-md shadow-sm focus:ring-green-400 focus:border-green-400 sm:text-sm"
+          />
+        </div>
+        <div>
+          <label for="yearTo" class="block text-sm font-medium text-gray-700"
+            >Year To:</label
+          >
+          <input
+            type="number"
+            id="yearTo"
+            formControlName="yearTo"
+            class="mt-1 p-2 w-full border rounded-md shadow-sm focus:ring-green-400 focus:border-green-400 sm:text-sm"
+          />
+        </div>
+        <div>
+          <label for="seats" class="block text-sm font-medium text-gray-700"
+            >Seats:</label
+          >
+          <input
+            type="number"
+            id="seats"
+            formControlName="seats"
+            class="mt-1 p-2 w-full border rounded-md shadow-sm focus:ring-green-400 focus:border-green-400 sm:text-sm"
+          />
+        </div>
+        <div>
+          <label for="type" class="block text-sm font-medium text-gray-700"
+            >Type:</label
+          >
+          <select
+            id="type"
+            formControlName="type"
+            class="mt-1 p-2 w-full border rounded-md shadow-sm focus:ring-green-400 focus:border-green-400 sm:text-sm"
+          >
+            <option value="">All Types</option>
+            <option value="Car">Car</option>
+            <option value="Motorcycle">Motorcycle</option>
+            <option value="Truck">Truck</option>
+          </select>
+        </div>
+        <div class="mt-4 flex justify-end">
+          <button
+            type="submit"
+            class="bg-green-900 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline"
+          >
+            Generate PDF
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Секція створення транспортного засобу -->
+    <section class="bg-white p-4 rounded-lg shadow-md mb-6">
+      <h2 class="text-lg font-semibold mb-4 text-gray-800">Create Vehicle</h2>
+      <form
+        [formGroup]="createVehicleForm"
+        (ngSubmit)="createVehicle()"
+        class="grid grid-cols-1 md:grid-cols-3 gap-4"
+      >
+        <div>
+          <label
+            for="vehicleBrand"
+            class="block text-sm font-medium text-gray-700"
+            >Brand:</label
+          >
+          <input
+            type="text"
+            id="vehicleBrand"
+            formControlName="vehicleBrand"
+            class="mt-1 p-2 w-full border rounded-md shadow-sm focus:ring-green-400 focus:border-green-400 sm:text-sm"
+          />
+        </div>
+        <div>
+          <label
+            for="vehicleModel"
+            class="block text-sm font-medium text-gray-700"
+            >Model:</label
+          >
+          <input
+            type="text"
+            id="vehicleModel"
+            formControlName="vehicleModel"
+            class="mt-1 p-2 w-full border rounded-md shadow-sm focus:ring-green-400 focus:border-green-400 sm:text-sm"
+          />
+        </div>
+        <div>
+          <label
+            for="pricePerDay"
+            class="block text-sm font-medium text-gray-700"
+            >Price/Day:</label
+          >
+          <input
+            type="number"
+            id="pricePerDay"
+            formControlName="pricePerDay"
+            class="mt-1 p-2 w-full border rounded-md shadow-sm focus:ring-green-400 focus:border-green-400 sm:text-sm"
+          />
+        </div>
+        <div>
+          <label
+            for="vehicleType"
+            class="block text-sm font-medium text-gray-700"
+            >Type:</label
+          >
+          <select
+            id="vehicleType"
+            formControlName="vehicleType"
+            class="mt-1 p-2 w-full border rounded-md shadow-sm focus:ring-green-400 focus:border-green-400 sm:text-sm"
+          >
+            <option value="" disabled selected>Select Type</option>
+            <option value="Car">Car</option>
+            <option value="Motorcycle">Motorcycle</option>
+            <option value="Truck">Truck</option>
+          </select>
+        </div>
+        <div>
+          <label
+            for="licensePlate"
+            class="block text-sm font-medium text-gray-700"
+            >License Plate:</label
+          >
+          <input
+            type="text"
+            id="licensePlate"
+            formControlName="licensePlate"
+            class="mt-1 p-2 w-full border rounded-md shadow-sm focus:ring-green-400 focus:border-green-400 sm:text-sm"
+          />
+        </div>
+        <div>
+          <label
+            for="vehicleYear"
+            class="block text-sm font-medium text-gray-700"
+            >Year:</label
+          >
+          <input
+            type="number"
+            id="vehicleYear"
+            formControlName="vehicleYear"
+            class="mt-1 p-2 w-full border rounded-md shadow-sm focus:ring-green-400 focus:border-green-400 sm:text-sm"
+          />
+        </div>
+        <div>
+          <label
+            for="vehicleSeats"
+            class="block text-sm font-medium text-gray-700"
+            >Seats:</label
+          >
+          <input
+            type="number"
+            id="vehicleSeats"
+            formControlName="vehicleSeats"
+            class="mt-1 p-2 w-full border rounded-md shadow-sm focus:ring-green-400 focus:border-green-400 sm:text-sm"
+          />
+        </div>
+        <div class="relative">
+          <label
+            for="rentalPointId"
+            class="block text-sm font-medium text-gray-700"
+            >Rental Point:</label
+          >
+          <input
+            type="text"
+            id="rentalPointId"
+            formControlName="rentalPointId"
+            (blur)="onBlurCreate()"
+            class="mt-1 p-2 w-full border rounded-md shadow-sm focus:ring-green-400 focus:border-green-400 sm:text-sm"
+          />
+          <ul
+            *ngIf="rentalPointSuggestionsForCreate.length > 0"
+            class="absolute z-10 w-full bg-white border border-gray-200 rounded-md shadow-md mt-1 max-h-40 overflow-y-auto"
+          >
+            <li
+              *ngFor="let suggestion of rentalPointSuggestionsForCreate"
+              (click)="selectRentalPointForCreate(suggestion)"
+              class="p-2 hover:bg-gray-100 cursor-pointer"
+            >
+              {{ suggestion.rentalPointName }} ({{
+                suggestion.rentalPointAddress
+              }})
+            </li>
+          </ul>
+        </div>
+        <div class="mt-4 flex justify-end">
+          <button
+            type="submit"
+            [disabled]="createVehicleForm.invalid"
+            class="bg-green-900 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline disabled:bg-gray-400"
+          >
+            Create Vehicle
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Секція видалення транспортного засобу -->
+    <section class="bg-white p-4 rounded-lg shadow-md mb-6">
+      <h2 class="text-lg font-semibold mb-4 text-gray-800">Delete Vehicle</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label
+            for="vehicleIdToDelete"
+            class="block text-sm font-medium text-gray-700"
+            >Vehicle ID:</label
+          >
+          <input
+            type="text"
+            id="vehicleIdToDelete"
+            [(ngModel)]="vehicleIdToDelete"
+            class="mt-1 p-2 w-full border rounded-md shadow-sm focus:ring-green-400 focus:border-green-400 sm:text-sm"
+          />
+        </div>
+        <div class="mt-4 flex justify-end">
+          <button
+            (click)="deleteVehicle()"
+            class="bg-green-900 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline"
+          >
+            Delete Vehicle
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Секція створення точки прокату -->
+    <section class="bg-white p-4 rounded-lg shadow-md mb-6">
+      <h2 class="text-lg font-semibold mb-4 text-gray-800">
+        Create Rental Point
+      </h2>
+      <form
+        [formGroup]="createRentalPointForm"
+        (ngSubmit)="createRentalPoint()"
+      >
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <label for="name" class="block text-sm font-medium text-gray-700"
+              >Name:</label
+            >
+            <input
+              type="text"
+              id="name"
+              formControlName="name"
+              class="mt-1 p-2 w-full border rounded-md shadow-sm focus:ring-green-400 focus:border-green-400 sm:text-sm"
+            />
+          </div>
+          <div>
+            <label for="city" class="block text-sm font-medium text-gray-700"
+              >City:</label
+            >
+            <input
+              type="text"
+              id="city"
+              formControlName="city"
+              class="mt-1 p-2 w-full border rounded-md shadow-sm focus:ring-green-400 focus:border-green-400 sm:text-sm"
+            />
+          </div>
+          <div>
+            <label for="street" class="block text-sm font-medium text-gray-700"
+              >Street:</label
+            >
+            <input
+              type="text"
+              id="street"
+              formControlName="street"
+              class="mt-1 p-2 w-full border rounded-md shadow-sm focus:ring-green-400 focus:border-green-400 sm:text-sm"
+            />
+          </div>
+        </div>
+        <div class="mt-4 flex justify-end">
+          <button
+            type="submit"
+            [disabled]="createRentalPointForm.invalid"
+            class="bg-green-900 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline disabled:bg-gray-400"
+          >
+            Create Rental Point
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Секція видалення точки прокату -->
+    <section class="bg-white p-4 rounded-lg shadow-md mb-6">
+      <h2 class="text-lg font-semibold mb-4 text-gray-800">
+        Delete Rental Point
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="relative">
+          <label
+            for="rentalPointIdToDelete"
+            class="block text-sm font-medium text-gray-700"
+            >Rental Point:</label
+          >
+          <input
+            type="text"
+            id="rentalPointIdToDelete"
+            [(ngModel)]="rentalPointIdToDelete"
+            (input)="onRentalPointDeleteInput($event)"
+            (blur)="onBlurDelete()"
+            class="mt-1 p-2 w-full border rounded-md shadow-sm focus:ring-green-400 focus:border-green-400 sm:text-sm"
+          />
+          <ul
+            *ngIf="rentalPointSuggestionsForDelete.length > 0"
+            class="absolute z-10 w-full bg-white border border-gray-200 rounded-md shadow-md mt-1 max-h-40 overflow-y-auto"
+          >
+            <li
+              *ngFor="let suggestion of rentalPointSuggestionsForDelete"
+              (click)="selectRentalPointForDelete(suggestion)"
+              class="p-2 hover:bg-gray-100 cursor-pointer"
+            >
+              {{ suggestion.rentalPointName }} ({{
+                suggestion.rentalPointAddress
+              }})
+            </li>
+          </ul>
+        </div>
+        <div class="mt-4 flex justify-end">
+          <button
+            (click)="deleteRentalPoint()"
+            [disabled]="!selectedRentalPointForDelete"
+            class="bg-green-900 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline disabled:bg-gray-400"
+          >
+            Delete Rental Point
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>

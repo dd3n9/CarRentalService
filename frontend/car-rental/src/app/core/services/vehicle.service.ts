@@ -66,4 +66,26 @@ export class VehicleService {
         })
       );
   }
+  getVehiclesReportPdf(params: any): Observable<Blob> {
+    let httpParams = new HttpParams();
+    if (params.city) httpParams = httpParams.set('city', params.city);
+    if (params.yearFrom)
+      httpParams = httpParams.set('yearFrom', params.yearFrom);
+    if (params.yearTo) httpParams = httpParams.set('yearTo', params.yearTo);
+    if (params.seats) httpParams = httpParams.set('seats', params.seats);
+    if (params.type) httpParams = httpParams.set('type', params.type);
+
+    return this.http.get(`${this.apiUrl}/report-pdf`, {
+      params: httpParams,
+      responseType: 'blob',
+    });
+  }
+
+  createVehicle(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}`, data);
+  }
+
+  deleteVehicle(vehicleId: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${vehicleId}`);
+  }
 }

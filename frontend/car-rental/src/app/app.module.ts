@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CarsPageComponent } from './pages/cars-page/cars-page.component';
@@ -21,6 +21,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MyReservationsPageComponent } from './pages/my-reservations-page/my-reservations-page.component';
 import { authTokenInterceptor } from './core/interceptors/auth.interceptor';
+import { ManagementPageComponent } from './pages/management-page/management-page.component';
 
 @NgModule({
   declarations: [
@@ -33,9 +34,11 @@ import { authTokenInterceptor } from './core/interceptors/auth.interceptor';
     LoginPageComponent,
     RegisterPageComponent,
     MyReservationsPageComponent,
+    ManagementPageComponent,
   ],
   imports: [
     BrowserAnimationsModule,
+    ReactiveFormsModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
