@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Vehicle } from '../models/car.model';
+import { Vehicle, VehicleDetailsResponse } from '../models/car.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { PaginatedResult } from '../models/paginated-result.model';
 import { map, Observable } from 'rxjs';
@@ -79,6 +79,12 @@ export class VehicleService {
       params: httpParams,
       responseType: 'blob',
     });
+  }
+
+  getVehicleDetails(vehicleId: string): Observable<VehicleDetailsResponse> {
+    return this.http.get<VehicleDetailsResponse>(
+      `${this.apiUrl}/${vehicleId}/details`
+    );
   }
 
   createVehicle(data: any): Observable<any> {

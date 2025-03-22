@@ -1,7 +1,10 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { Reservation } from '../models/reservations.model';
+import {
+  CreateReservationRequest,
+  Reservation,
+} from '../models/reservations.model';
 import { PaginatedResult } from '../models/paginated-result.model';
 
 @Injectable({
@@ -49,5 +52,8 @@ export class ReservationsService {
           return paginatedResult;
         })
       );
+  }
+  createReservation(request: CreateReservationRequest): Observable<any> {
+    return this.http.post(`${this.apiUrl}`, request);
   }
 }

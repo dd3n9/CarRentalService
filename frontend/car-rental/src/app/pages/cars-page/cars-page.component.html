@@ -13,6 +13,7 @@
       <app-car-card
         *ngFor="let vehicle of vehicles; trackBy: trackByVehicleId"
         [vehicle]="vehicle"
+        (viewDetails)="onViewDetails($event)"
       ></app-car-card>
     </div>
 
@@ -22,5 +23,66 @@
       [totalPages]="paginationInfo.totalPages"
       (pageChange)="onPageChange($event)"
     ></app-pagination>
+
+    <div
+      *ngIf="showModal"
+      class="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50"
+    >
+      <div class="bg-gray-100 rounded-lg shadow-lg p-6 w-full max-w-md">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-lg font-semibold text-gray-800">Vehicle Details</h3>
+        </div>
+
+        <div *ngIf="modalError" class="text-red-500 mb-4">{{ modalError }}</div>
+
+        <div *ngIf="vehicleDetails" class="space-y-2">
+          <p class="text-gray-700">
+            <span class="font-medium">Brand:</span> {{ vehicleDetails.brand }}
+          </p>
+          <p class="text-gray-700">
+            <span class="font-medium">Model:</span> {{ vehicleDetails.model }}
+          </p>
+          <p class="text-gray-700">
+            <span class="font-medium">Type:</span> {{ vehicleDetails.type }}
+          </p>
+          <p class="text-gray-700">
+            <span class="font-medium">License Plate:</span>
+            {{ vehicleDetails.licensePlate }}
+          </p>
+          <p class="text-gray-700">
+            <span class="font-medium">Year:</span> {{ vehicleDetails.year }}
+          </p>
+          <p class="text-gray-700">
+            <span class="font-medium">Seats:</span> {{ vehicleDetails.seats }}
+          </p>
+          <p class="text-gray-700">
+            <span class="font-medium">Price/Day:</span> ${{
+              vehicleDetails.pricePerDay
+            }}
+          </p>
+          <p class="text-gray-700">
+            <span class="font-medium">Availability:</span>
+            {{ vehicleDetails.isAvailable ? "Available" : "Not Available" }}
+          </p>
+          <p class="text-gray-700">
+            <span class="font-medium">Rental Point:</span>
+            {{ vehicleDetails.rentalPointName }}
+          </p>
+          <p class="text-gray-700">
+            <span class="font-medium">Address:</span>
+            {{ vehicleDetails.rentalPointAddress }}
+          </p>
+        </div>
+
+        <div class="mt-6 flex justify-end">
+          <button
+            (click)="closeModal()"
+            class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
   </main>
 </div>
