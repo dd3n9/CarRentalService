@@ -23,28 +23,26 @@ namespace CarRentalService.Infrastructure.Jobs
 
         public async Task Execute(IJobExecutionContext context)
         {
-            var now = DateTime.UtcNow;
-            var reminderWindowStart = now; // Поточний час
-            var reminderWindowEnd = now.AddMinutes(30); // Поточний час + 30 хвилин
+            var now = DateTime.UtcNow.AddMinutes(30);
+            var normalizedTime = new DateTime(
+                now.Year, now.Month, now.Day,
+                now.Hour, now.Minute, 0, DateTimeKind.Utc);
 
             var upcomingReturns = await _vehicles
                 .SelectMany(v => v.Reservations)
                 .Include(r => r.Vehicle)
                 .Where(r =>
-                    r.Status == "Active" && // Перевіряємо лише активні резервації
-                    r.EndDate >= reminderWindowStart && // EndDate >= поточного часу
-                    r.EndDate <= reminderWindowEnd) // EndDate <= поточного часу + 30 хвилин
+                    r.EndDate >= normalizedTime &&
+                    r.EndDate < normalizedTime.AddMinutes(1))
                 .ToListAsync();
-
 
             foreach (var reservation in upcomingReturns)
             {
                 var userId = reservation.UserId.ToString();
-                var message = $"Your vehicle {reservation.Vehicle.Brand} must be returned by {reservation.EndDate:HH:mm}.";
+                var message = $"Your vehicle {reservation.Vehicle.Brand} {reservation.Vehicle.Model} must be returned by {reservation.EndDate:HH:mm} on {reservation.EndDate:dd/MM/yyyy}.";
 
                 await _hubContext.Clients.User(userId).ReceiveNotification(message);
             }
-
         }
     }
 }
