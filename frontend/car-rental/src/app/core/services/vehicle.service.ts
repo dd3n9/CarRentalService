@@ -3,12 +3,13 @@ import { Vehicle, VehicleDetailsResponse } from '../models/car.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { PaginatedResult } from '../models/paginated-result.model';
 import { map, Observable } from 'rxjs';
+import { baseUrlV1 } from '../constants/constants';
 
 @Injectable({
   providedIn: 'root',
 })
 export class VehicleService {
-  private apiUrl = 'https://localhost:8085/api/v1/Vehicles';
+  private apiUrl = `${baseUrlV1}/Vehicles`;
 
   constructor(private http: HttpClient) {}
 
@@ -34,7 +35,6 @@ export class VehicleService {
       params = params.set('startDate', processedStartDate.toISOString());
     }
 
-    // Обробка endDate
     const processedEndDate = this.toValidDate(endDate);
     if (processedEndDate) {
       params = params.set('endDate', processedEndDate.toISOString());
@@ -110,12 +110,10 @@ export class VehicleService {
   private toValidDate(value?: Date | string): Date | null {
     if (!value) return null;
 
-    // Якщо це вже Date об'єкт і він валідний
     if (value instanceof Date && !isNaN(value.getTime())) {
       return value;
     }
 
-    // Якщо це рядок, намагаємося перетворити
     if (typeof value === 'string') {
       const date = new Date(value);
       return !isNaN(date.getTime()) ? date : null;

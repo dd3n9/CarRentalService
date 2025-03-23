@@ -20,7 +20,7 @@ namespace CarRentalService.Infrastructure.Jobs
         public async Task Execute(IJobExecutionContext context)
         {
             var now = DateTime.UtcNow;
-            var normalizedTime = new DateTime(
+             var normalizedTime = new DateTime(
                 now.Year, now.Month, now.Day,
                 now.Hour, now.Minute, 0, DateTimeKind.Utc);
 

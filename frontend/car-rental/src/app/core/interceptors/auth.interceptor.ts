@@ -25,43 +25,27 @@ export const authTokenInterceptor: HttpInterceptorFn = (req, next) => {
   return next(authReq).pipe(
     catchError((error) => {
       if (error instanceof HttpErrorResponse && error.status === 401) {
-        return authService.refreshAuthToken().pipe(
-          switchMap((newToken) => {
-            return next(addToken(req, newToken));
-          }),
-          catchError((refreshError) => {
-            authService.logout();
-            return throwError(() => refreshError);
-          })
-        );
+        if (!isRefreshing) {
+          isRefreshing = true;
+          return authService.refreshAuthToken().pipe(
+            switchMap((newToken) => {
+              isRefreshing = false;
+              return next(addToken(req, newToken));
+            }),
+            catchError((refreshError) => {
+              isRefreshing = false;
+              authService.logout();
+              return throwError(() => refreshError);
+            })
+          );
+        } else {
+          return next(addToken(req, authService.token!));
+        }
       }
       errorHandlerService.showError(error);
       return throwError(() => error);
     })
   );
-};
-
-const refreshAndProceed = (
-  authService: AuthService,
-  req: HttpRequest<any>,
-  next: HttpHandlerFn
-) => {
-  if (!isRefreshing) {
-    isRefreshing = true;
-    return authService.refreshAuthToken().pipe(
-      switchMap((res) => {
-        isRefreshing = false;
-        return next(addToken(req, res));
-      }),
-      catchError((err) => {
-        isRefreshing = false;
-        authService.logout();
-        return throwError(() => err);
-      })
-    );
-  }
-
-  return next(addToken(req, authService.token!));
 };
 
 const addToken = (req: HttpRequest<any>, token: string) => {

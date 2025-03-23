@@ -3,6 +3,7 @@ import * as signalR from '@microsoft/signalr';
 import { AuthService } from './auth.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { GlobalErrorHandlerService } from './global-error-handler.service';
+import { baseHub } from '../constants/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +23,7 @@ export class ReservationNotificationService {
     private notificationHandler: GlobalErrorHandlerService
   ) {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('https://localhost:8085/reservations/reservation-hub', {
+      .withUrl(`${baseHub}/reservations/reservation-hub`, {
         accessTokenFactory: () => this.authService.token || '',
       })
       .withAutomaticReconnect()
@@ -58,7 +59,7 @@ export class ReservationNotificationService {
         .stop()
         .then(() => console.log('SignalR Disconnected!'))
         .catch((err) =>
-          console.error('Error while stopping SignalR connection:', err)
+          console.error('Error while stopping SignalR connection:', err.status)
         );
     }
   }
@@ -75,12 +76,30 @@ export class ReservationNotificationService {
       console.log('SignalR Reconnected!');
     });
 
-    this.hubConnection.onreconnecting((error) => {
+    this.hubConnection.onreconnecting(async (error) => {
       console.log('SignalR Reconnecting...', error);
+
+      if (error?.message?.toLowerCase().includes('401')) {
+        console.warn('Unauthorized! Trying to refresh token...');
+        await this.authService.refreshAuthToken();
+        this.handleReconnection();
+      } else {
+        console.log('Reconnecting due to other error...');
+        this.handleReconnection();
+      }
     });
 
-    this.hubConnection.onclose((error) => {
+    this.hubConnection.onclose(async (error) => {
       console.log('SignalR Connection Closed:', error);
+
+      if (error?.message?.toLowerCase().includes('401')) {
+        console.warn('Unauthorized! Trying to refresh token...');
+        await this.authService.refreshAuthToken();
+        this.handleReconnection();
+      } else {
+        console.log('Reconnecting due to other error...');
+        this.handleReconnection();
+      }
     });
   }
 

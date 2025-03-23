@@ -1,10 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { AuthenticationResult } from '../models/auth.model';
 import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
-import { UserRoles } from '../constants/constants';
+import { baseUrlV1, UserRoles } from '../constants/constants';
 import { GlobalErrorHandlerService } from './global-error-handler.service';
 
 @Injectable({
@@ -14,7 +14,7 @@ export class AuthService {
   http = inject(HttpClient);
   router = inject(Router);
   cookieService = inject(CookieService);
-  private apiUrl = 'https://localhost:8085/api/v1/Authentication';
+  private apiUrl = `${baseUrlV1}/Authentication`;
   errorHanlder = inject(GlobalErrorHandlerService);
 
   token: string | null = null;
@@ -84,13 +84,20 @@ export class AuthService {
 
   refreshAuthToken() {
     return this.http
-      .post<string>(`${this.apiUrl}/refreshToken`, undefined)
+      .post<string>(`${this.apiUrl}/refreshToken`, null, {
+        headers: new HttpHeaders({
+          Authorization: `Bearer ${this.token}`,
+        }),
+        withCredentials: true,
+      })
       .pipe(
         tap((val) => {
+          console.log(val);
           this.saveToken(val);
           this.isAuthSubject.next(true);
         }),
         catchError((err) => {
+          console.log(err);
           this.errorHanlder.showError(err);
           return throwError(err);
         })

@@ -98,7 +98,7 @@ namespace CarRentalService.Api.Controllers.V1
                 HttpContext.Response.Cookies.Append(_cookiesConfig.CookiesKey, authResult.Value.RefreshToken,
                     new CookieOptions
                     {
-                        HttpOnly = true,
+                        HttpOnly = false,
                         Secure = true,
                         SameSite = SameSiteMode.None,
                         Expires = DateTime.UtcNow.AddMonths(_jwtConfig.RefreshTokenExpiryMonths)

@@ -2,12 +2,13 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { RentalPointSuggestion } from '../models/rentalPoint.model';
+import { baseUrlV1 } from '../constants/constants';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RentalpointsService {
-  private apiUrl = 'https://localhost:8085/api/v1/RentalPoints';
+  private apiUrl = `${baseUrlV1}/RentalPoints`;
   constructor(private http: HttpClient) {}
 
   getRentalPointSuggestions(
