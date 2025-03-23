@@ -38,10 +38,7 @@ namespace CarRentalService.Infrastructure.Queries.Vehicles
             }
             else
             {
-                var currentTime = DateTime.UtcNow;
-
-                query = query.Where(v => !v.Reservations.Any(r =>
-                    r.StartDate >= currentTime));
+                query = query.Where(v => v.IsAvailable == true);
             }
 
             if (!string.IsNullOrWhiteSpace(request.VehicleType))

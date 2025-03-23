@@ -89,11 +89,18 @@ export class ReserveVehicleModalComponent implements OnInit {
       return;
     }
 
+    const currentDate = new Date();
+    const startDate = new Date(this.reserveForm.get('startDate')!.value);
+    const endDate = new Date(this.reserveForm.get('endDate')!.value);
+
+    startDate.setHours(currentDate.getHours(), currentDate.getMinutes(), 0);
+    endDate.setHours(currentDate.getHours(), currentDate.getMinutes(), 0);
+
     const request: CreateReservationRequest = {
       vehicleId: this.vehicleId,
       returnPointId: this.selectedReturnPoint.id,
-      startDate: this.reserveForm.get('startDate')!.value,
-      endDate: this.reserveForm.get('endDate')!.value,
+      startDate: startDate.toISOString(),
+      endDate: endDate.toISOString(),
     };
 
     this.submitReservation.emit(request);

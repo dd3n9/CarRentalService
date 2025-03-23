@@ -148,6 +148,19 @@ namespace CarRentalService.Infrastructure.EF.Config.WriteConfigurations
                     IsAvailable = true,
                     RentalPointId = new RentalPointId(Guid.Parse("550e8400-e29b-41d4-a716-446655440100"))
                 },
+                 new
+                 {
+                     Id = VehicleId.CreateUnique(),
+                     Brand = new VehicleBrand("Toyota"),
+                     Model = new VehicleModel("Supra"),
+                     PricePerDay = new Price(100m),
+                     Type = VehicleType.Car,
+                     LicensePlate = new LicensePlate("KR7777AB"),
+                     Year = new VehicleYear(2020),
+                     Seats = new VehicleSeats(2),
+                     IsAvailable = true,
+                     RentalPointId = new RentalPointId(Guid.Parse("550e8400-e29b-41d4-a716-446655440100"))
+                 },
                 new
                 {
                     Id = VehicleId.CreateUnique(),

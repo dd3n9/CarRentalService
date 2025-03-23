@@ -112,17 +112,31 @@ namespace CarRentalService.Infrastructure
             services.AddQuartz(opt =>
             {
                 opt.UseMicrosoftDependencyInjectionJobFactory();
-                var jobKey = new JobKey("ReservationReminderJob");
-                opt.AddJob<ReservationReminderJob>(options => options.WithIdentity(jobKey));
+
+                var reminderJobKey = new JobKey("ReservationReminderJob");
+                opt.AddJob<ReservationReminderJob>(options => options.WithIdentity(reminderJobKey));
                 opt.AddTrigger(options =>
                 {
-                    options.ForJob(jobKey)
+                    options.ForJob(reminderJobKey)
                         .WithIdentity("ReservationReminderTrigger")
                         .WithSimpleSchedule(schedule => schedule
-                .WithIntervalInMinutes(1)
-                .RepeatForever());
+                            .WithIntervalInMinutes(1)
+                            .RepeatForever());
+                });
+
+                var starterJobKey = new JobKey("ReservationStarterJob");
+                opt.AddJob<ReservationStarterJob>(options => options.WithIdentity(starterJobKey));
+                opt.AddTrigger(options =>
+                {
+                    options.ForJob(starterJobKey)
+                        .WithIdentity("ReservationStarterTrigger")
+                        .WithSimpleSchedule(schedule => schedule
+                            .WithIntervalInMinutes(1)
+                            .RepeatForever());
                 });
             });
+
+
             services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
 
             return services;

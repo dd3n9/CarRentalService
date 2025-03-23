@@ -6,13 +6,14 @@ import {
   Reservation,
 } from '../models/reservations.model';
 import { PaginatedResult } from '../models/paginated-result.model';
+import { baseUrlV1 } from '../constants/constants';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ReservationsService {
   private http = inject(HttpClient);
-  private apiUrl = 'https://localhost:8085/api/v1/Reservations';
+  private apiUrl = `${baseUrlV1}/Reservations`;
 
   constructor() {}
 

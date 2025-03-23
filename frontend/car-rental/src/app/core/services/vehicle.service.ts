@@ -3,12 +3,13 @@ import { Vehicle, VehicleDetailsResponse } from '../models/car.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { PaginatedResult } from '../models/paginated-result.model';
 import { map, Observable } from 'rxjs';
+import { baseUrlV1 } from '../constants/constants';
 
 @Injectable({
   providedIn: 'root',
 })
 export class VehicleService {
-  private apiUrl = 'https://localhost:8085/api/v1/Vehicles';
+  private apiUrl = `${baseUrlV1}/Vehicles`;
 
   constructor(private http: HttpClient) {}
 
@@ -29,8 +30,15 @@ export class VehicleService {
       .set('pageNumber', pageNumber.toString());
 
     if (city) params = params.set('city', city);
-    if (startDate) params = params.set('startDate', startDate.toISOString());
-    if (endDate) params = params.set('endDate', endDate.toISOString());
+    const processedStartDate = this.toValidDate(startDate);
+    if (processedStartDate) {
+      params = params.set('startDate', processedStartDate.toISOString());
+    }
+
+    const processedEndDate = this.toValidDate(endDate);
+    if (processedEndDate) {
+      params = params.set('endDate', processedEndDate.toISOString());
+    }
     if (vehicleType) params = params.set('vehicleType', vehicleType);
     if (yearFrom) params = params.set('yearFrom', yearFrom.toString());
     if (yearTo) params = params.set('yearTo', yearTo.toString());
@@ -97,5 +105,20 @@ export class VehicleService {
 
   returnVehicle(reservationId: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/${reservationId}/return`, {});
+  }
+
+  private toValidDate(value?: Date | string): Date | null {
+    if (!value) return null;
+
+    if (value instanceof Date && !isNaN(value.getTime())) {
+      return value;
+    }
+
+    if (typeof value === 'string') {
+      const date = new Date(value);
+      return !isNaN(date.getTime()) ? date : null;
+    }
+
+    return null;
   }
 }
