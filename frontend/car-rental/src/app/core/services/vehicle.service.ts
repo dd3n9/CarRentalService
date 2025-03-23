@@ -29,8 +29,16 @@ export class VehicleService {
       .set('pageNumber', pageNumber.toString());
 
     if (city) params = params.set('city', city);
-    if (startDate) params = params.set('startDate', startDate.toISOString());
-    if (endDate) params = params.set('endDate', endDate.toISOString());
+    const processedStartDate = this.toValidDate(startDate);
+    if (processedStartDate) {
+      params = params.set('startDate', processedStartDate.toISOString());
+    }
+
+    // Обробка endDate
+    const processedEndDate = this.toValidDate(endDate);
+    if (processedEndDate) {
+      params = params.set('endDate', processedEndDate.toISOString());
+    }
     if (vehicleType) params = params.set('vehicleType', vehicleType);
     if (yearFrom) params = params.set('yearFrom', yearFrom.toString());
     if (yearTo) params = params.set('yearTo', yearTo.toString());
@@ -97,5 +105,22 @@ export class VehicleService {
 
   returnVehicle(reservationId: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/${reservationId}/return`, {});
+  }
+
+  private toValidDate(value?: Date | string): Date | null {
+    if (!value) return null;
+
+    // Якщо це вже Date об'єкт і він валідний
+    if (value instanceof Date && !isNaN(value.getTime())) {
+      return value;
+    }
+
+    // Якщо це рядок, намагаємося перетворити
+    if (typeof value === 'string') {
+      const date = new Date(value);
+      return !isNaN(date.getTime()) ? date : null;
+    }
+
+    return null;
   }
 }

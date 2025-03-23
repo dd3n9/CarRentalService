@@ -77,7 +77,7 @@ namespace CarRentalService.Domain.VehicleAggregate
 
         public Result<Reservation> Reserve(UserId userId, RentalPointId pickupPointId, RentalPointId returnPointId, DateTime startDate, DateTime endDate)
         {
-            if(!IsAvailable && _reservations.Any(r => r.StartDate.Value < endDate && r.EndDate.Value > startDate))
+            if (!IsAvailable || _reservations.Any(r => r.StartDate.Value < endDate && r.EndDate.Value > startDate))
                 return Result.Fail(ApplicationErrors.Vehicle.VehicleNotAvailableForSelectedTime);
 
             if (RentalPointId != pickupPointId)
@@ -85,8 +85,6 @@ namespace CarRentalService.Domain.VehicleAggregate
 
             var reservation = Reservation.Create(userId, Id, pickupPointId, returnPointId, startDate, endDate);
             _reservations.Add(reservation);
-
-            IsAvailable = false;
 
             return Result.Ok(reservation);
         }
@@ -111,6 +109,10 @@ namespace CarRentalService.Domain.VehicleAggregate
         {
             RentalPointId = returnPointId;
             IsAvailable = true;
+        }
+        public void MakeUnAvailable()
+        {
+            IsAvailable = false;
         }
     }
 }
