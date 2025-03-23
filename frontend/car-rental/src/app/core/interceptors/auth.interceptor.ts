@@ -13,28 +13,29 @@ let isRefreshing = false;
 
 export const authTokenInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
-  const token = authService.token;
   const errorHandlerService = inject(GlobalErrorHandlerService);
-  console.log(token);
+  const token = authService.token;
 
-  if (!token) return next(req);
-
-  if (isRefreshing) {
-    return refreshAndProceed(authService, req, next);
+  if (!token || req.url.includes('/refreshToken')) {
+    return next(req);
   }
 
-  return next(addToken(req, token)).pipe(
+  const authReq = addToken(req, token);
+
+  return next(authReq).pipe(
     catchError((error) => {
-      console.log(error);
-      if (error instanceof HttpErrorResponse) {
-        if (error.status === 401) {
-          return refreshAndProceed(authService, req, next);
-        } else {
-          errorHandlerService.showError(error);
-        }
-      } else {
-        errorHandlerService.showError(error);
+      if (error instanceof HttpErrorResponse && error.status === 401) {
+        return authService.refreshAuthToken().pipe(
+          switchMap((newToken) => {
+            return next(addToken(req, newToken));
+          }),
+          catchError((refreshError) => {
+            authService.logout();
+            return throwError(() => refreshError);
+          })
+        );
       }
+      errorHandlerService.showError(error);
       return throwError(() => error);
     })
   );
@@ -51,6 +52,11 @@ const refreshAndProceed = (
       switchMap((res) => {
         isRefreshing = false;
         return next(addToken(req, res));
+      }),
+      catchError((err) => {
+        isRefreshing = false;
+        authService.logout();
+        return throwError(() => err);
       })
     );
   }
