@@ -4,6 +4,7 @@ using CarRentalService.Application.Common.Interfaces.Services;
 using CarRentalService.Domain;
 using CarRentalService.Infrastructure;
 using CarRentalService.Infrastructure.EF.Context;
+using CarRentalService.Infrastructure.Hubs;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
@@ -66,6 +67,8 @@ using (var serviceScope = app.Services.CreateScope())
 };
 
 app.UseExceptionHandler(_ => { });
+
+app.MapHub<ReservationHub>("/reservations/reservation-hub");
 
 app.UseHttpsRedirection();
 

@@ -41,8 +41,7 @@ namespace CarRentalService.Infrastructure.Queries.Vehicles
                 var currentTime = DateTime.UtcNow;
 
                 query = query.Where(v => !v.Reservations.Any(r =>
-                    r.StartDate <= currentTime &&
-                    r.EndDate >= currentTime));
+                    r.StartDate >= currentTime));
             }
 
             if (!string.IsNullOrWhiteSpace(request.VehicleType))

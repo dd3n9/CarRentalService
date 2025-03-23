@@ -19,7 +19,7 @@ export class CarCardComponent {
   vehicleDetails: VehicleDetailsResponse | null = null;
   error: string | null = null;
 
-  constructor(private authService: AuthService) {}
+  constructor(public authService: AuthService) {}
 
   ngOnInit(): void {}
 

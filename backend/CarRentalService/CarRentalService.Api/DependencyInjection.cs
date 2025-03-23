@@ -18,6 +18,7 @@ namespace CarRentalService.Api
                 .AddMappings()
                 .AddSwagger();
 
+            services.AddSignalR();
 
             return services;
         }

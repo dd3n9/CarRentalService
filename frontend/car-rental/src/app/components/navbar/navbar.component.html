@@ -5,7 +5,7 @@
     <a routerLink="/" class="font-bold text-xl">Car Rental</a>
     <div class="space-x-4">
       <a routerLink="/{{ appRoutes.Cars }}" class="hover:text-gray-200">Cars</a>
-      <ng-container>
+      <ng-container *ngIf="authService.isAuth$ | async">
         <a
           routerLink="/{{ appRoutes.Reservations }}"
           class="hover:text-gray-200"
@@ -19,7 +19,7 @@
           >Management</a
         >
       </ng-container>
-      <ng-container *ngIf="!authService.isAuth">
+      <ng-container *ngIf="!(authService.isAuth$ | async)">
         <a routerLink="/{{ appRoutes.Login }}" class="hover:text-gray-200"
           >Login</a
         >
@@ -27,7 +27,7 @@
           >Register</a
         >
       </ng-container>
-      <ng-container *ngIf="authService.isAuth">
+      <ng-container *ngIf="authService.isAuth$ | async">
         <button (click)="logout()" class="hover:text-gray-200">Logout</button>
       </ng-container>
     </div>
