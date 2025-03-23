@@ -8,6 +8,7 @@ using CarRentalService.Domain.UserAggregate.ValueObjects;
 using CarRentalService.Infrastructure.EF.Context;
 using CarRentalService.Infrastructure.EF.Repositories;
 using CarRentalService.Infrastructure.EF.Services;
+using CarRentalService.Infrastructure.Jobs;
 using CarRentalService.Infrastructure.Services.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -16,6 +17,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Quartz;
 using System.Text;
 
 namespace CarRentalService.Infrastructure
@@ -30,7 +32,8 @@ namespace CarRentalService.Infrastructure
                 .AddDefaultTokenProviders();
 
             services.AddMsSql(configuration)
-                .AddAuth(configuration);
+                .AddAuth(configuration)
+                .AddQuartzJob();
 
             //MediatR
             services.AddMediatR(config =>
@@ -100,6 +103,27 @@ namespace CarRentalService.Infrastructure
                     IssuerSigningKey = new SymmetricSecurityKey(
                         Encoding.UTF8.GetBytes(jwtSettings.Secret))
                 });
+
+            return services;
+        }
+
+        private static IServiceCollection AddQuartzJob(this IServiceCollection services)
+        {
+            services.AddQuartz(opt =>
+            {
+                opt.UseMicrosoftDependencyInjectionJobFactory();
+                var jobKey = new JobKey("ReservationReminderJob");
+                opt.AddJob<ReservationReminderJob>(options => options.WithIdentity(jobKey));
+                opt.AddTrigger(options =>
+                {
+                    options.ForJob(jobKey)
+                        .WithIdentity("ReservationReminderTrigger")
+                        .WithSimpleSchedule(schedule => schedule
+                .WithIntervalInMinutes(1)
+                .RepeatForever());
+                });
+            });
+            services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
 
             return services;
         }

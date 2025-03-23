@@ -23,12 +23,19 @@ export class AuthService {
   );
   public roles$: Observable<string[]> = this.rolesSubject.asObservable();
 
-  get isAuth() {
-    if (!this.token) {
-      this.token = this.cookieService.get('token');
-    }
+  private isAuthSubject = new BehaviorSubject<boolean>(
+    this.checkInitialAuthState()
+  );
+  public isAuth$ = this.isAuthSubject.asObservable();
 
-    return !!this.token;
+  private checkInitialAuthState(): boolean {
+    const token = this.cookieService.get('token');
+    this.token = token;
+    return !!token;
+  }
+
+  get isAuth(): boolean {
+    return this.isAuthSubject.value;
   }
 
   get currentRoles(): string[] {
@@ -49,6 +56,7 @@ export class AuthService {
         tap((val) => {
           this.saveToken(val.token);
           this.saveRoles(val.authenticationDto.userRoles);
+          this.isAuthSubject.next(true);
         }),
         catchError((err) => {
           this.errorHanlder.showError(err);
@@ -78,7 +86,10 @@ export class AuthService {
     return this.http
       .post<string>(`${this.apiUrl}/refreshToken`, undefined)
       .pipe(
-        tap((val) => this.saveToken(val)),
+        tap((val) => {
+          this.saveToken(val);
+          this.isAuthSubject.next(true);
+        }),
         catchError((err) => {
           this.errorHanlder.showError(err);
           return throwError(err);
@@ -90,6 +101,7 @@ export class AuthService {
     this.cookieService.deleteAll();
     this.token = null;
     this.rolesSubject.next([]);
+    this.isAuthSubject.next(false);
     this.router.navigate(['/login']);
   }
 
